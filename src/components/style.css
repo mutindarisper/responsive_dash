@@ -1,0 +1,39 @@
+/* .bg-image-container {
+    background-image: url('../assets/images/flash.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 40px; 
+    height: 400px; 
+  }
+  
+  .text-row {
+    text-align: center;
+    margin-top: 20px; 
+  } */
+
+  .bg-image-container {
+    background-image: url('../assets/images/flash.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+     /* padding: 40px;  */
+    min-height: 700px; 
+  }
+  
+.black-bg-opacity {
+    padding: 15em 2em;
+    background-color: rgba(0, 0, 0, 0.6); /* Black with opacity */
+  }
+  
+  
+  .text-container {
+    text-align: left;
+    /* opacity: 0.5; */
+  }
+  
+  .text-row {
+    text-align: center;
+    margin-top: 1.5em; /* Adjust margin as needed */
+  }
+  
