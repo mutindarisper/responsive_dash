@@ -1,11 +1,11 @@
-import React from 'react'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Button, Stack } from "react-bootstrap";
 import './style.css'
 
-type Props = {}
 
-const Header = (props: Props) => {
+
+const Header = () => {
 
     const customButtonStyle = {
         maxWidth: "10em", // Set your desired width

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Container, Row, Image, Button, Stack } from 'react-bootstrap';
 import mapImage from '../assets/images/flash.jpg'
@@ -9,9 +9,9 @@ import wfp from '../assets/images/wfp-logo.png'
 import sevir from '../assets/images/servir-sea.png'
 
 
-type Props = {}
 
-const FloodMaps = (props: Props) => {
+
+const FloodMaps = () => {
     const logos = [sig, sei, deltares, wfp]
 
 

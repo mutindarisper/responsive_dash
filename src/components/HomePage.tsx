@@ -1,10 +1,16 @@
-import React from 'react'
+import FloodMaps from "./FloodMaps"
+import Header from "./Header"
+import Navigationbar from "./Navigationbar"
 
-type Props = {}
 
-const HomePage = (props: Props) => {
+const HomePage = () => {
   return (
-    <div>HomePage</div>
+    <>
+    <Navigationbar />
+    <Header />
+    <FloodMaps />
+    
+    </>
   )
 }
 

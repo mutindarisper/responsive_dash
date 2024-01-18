@@ -1,11 +1,11 @@
-import React from 'react'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 
-type Props = {}
 
-const Navigationbar = (props: Props) => {
+
+const Navigationbar = () => {
   // return (
   //   <div className="div-navigation">
   //     <div className="nav-navbar">

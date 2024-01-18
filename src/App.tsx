@@ -1,7 +1,8 @@
 
-import FloodMaps from "./components/FloodMaps"
-import Header from "./components/Header"
-import Navigationbar from "./components/Navigationbar"
+
+import { Routes, Route, Navigate } from "react-router-dom"
+import HomePage from "./components/HomePage"
+import MapViewer from "./components/MapViewer"
 
 
 function App() {
@@ -9,9 +10,11 @@ function App() {
 
   return (
     <>
-    <Navigationbar />
-    <Header />
-    <FloodMaps />
+   <Routes>
+
+    <Route path="/" element={<HomePage />}> </Route>
+    <Route path="/mapviewer" element={<MapViewer />}> </Route>
+   </Routes>
     
     </>
   )
