@@ -1,6 +1,6 @@
 
 
-import { Routes, Route, Navigate } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import HomePage from "./components/HomePage"
 import MapViewer from "./components/MapViewer"
 

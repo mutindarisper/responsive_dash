@@ -55,7 +55,7 @@ const Navigationbar = () => {
             </Nav>
         <Nav className="ml-auto" > {/* Align links to the right with ml-auto */}
           <Nav.Link style={navLinkStyle} href="#home">Home</Nav.Link>
-          <Nav.Link style={navLinkStyle} href="#map-viewer">Map Viewer</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="/mapviewer">Map Viewer</Nav.Link>
           <Nav.Link style={navLinkStyle} href="#use-cases">Use Cases</Nav.Link>
           <NavDropdown style={navLinkStyle} title="User Materials" id="basic-nav-dropdown">
             <NavDropdown.Item href="#user-manual">User Manual</NavDropdown.Item>

@@ -1,30 +1,111 @@
-import  { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navigationbar from './Navigationbar';
+import MenuIcon from '@mui/icons-material/Menu'
+import LayersIcon from '@mui/icons-material/Layers'
+import PublicIcon from '@mui/icons-material/Public';
+
+import './Map.css'
+import { Nav, Navbar, Offcanvas } from 'react-bootstrap';
 
 
 
 const MapViewer = () => {
-    var mapRef = useRef<HTMLDivElement>(null);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<L.Map | null>(null);
 
-    useEffect(() => {
-        if (mapRef.current !== undefined && mapRef.current !== null) { mapRef.current.remove() }
+  const [show, setShow] = useState(false)
 
-        // Initialize the map
-        mapRef.current = L.map("map").setView([-1.2, 30.8], 3);
-    
-        // Add a tile layer to the map (you can use different tile providers)
-        L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-        }).addTo(mapRef.current);
-      }, []);
+  const handleShow = () => setShow(true)
+  const handleClose = () => setShow(false)
+
+
+  useEffect(() => {
+    if (mapContainerRef.current) {
+      // Check if a map instance already exists
+      if (mapRef.current) {
+        // If a map instance exists, remove it and clean up
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+
+      // Create a new map instance
+      const map = L.map(mapContainerRef.current, {
+        zoomControl: false,
+      }).setView([-1.2, 33,], 4);
+      L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+      }).addTo(map);
+      L.control.scale({ position: 'bottomright' }).addTo(map);
+      L.control.zoom({ position: 'topright' }).addTo(map);
+
+      // Save the map instance in the ref for future cleanup
+      mapRef.current = map;
+    }
+
+    // Cleanup function when the component is unmounted
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
+  }, []);
+
 
 
   return (
     <>
-     <div  id="map" style={{ width: '100%', height: '97vh', zIndex: 100 }} />;
+      <Navigationbar />
+      <div ref={mapContainerRef} style={{ height: '92.5vh', zIndex: 20 }}>
+        <Navbar bg="dark" expand="lg" className="flex-column" style={{ maxWidth: '3vw', height: '90vh', zIndex: 500, }}>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="flex-column" style={{ alignItems: 'flex-start', marginTop: '-75vh' }}>
+              <Nav.Item>
+                <Nav.Link href="#home">
+                  <MenuIcon onClick={handleShow} className='menu_icon' />
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#profile">
+                  <LayersIcon className='menu_icon' />
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#settings">
+                  <PublicIcon className='menu_icon' />
+                </Nav.Link>
+              </Nav.Item>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+
+
+
+        <Offcanvas show={show} onHide={handleClose} backdrop={false} style={{ margin: '4.5em', height: '92vh' }}>
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+
+          </Offcanvas.Body>
+        </Offcanvas>
+
+
+
+
+
+      </div>
+
+
+
+
+
     </>
-    
+
   )
 }
 
