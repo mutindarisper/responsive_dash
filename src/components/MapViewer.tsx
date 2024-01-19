@@ -7,8 +7,9 @@ import MenuIcon from '@mui/icons-material/Menu'
 import LayersIcon from '@mui/icons-material/Layers'
 import PublicIcon from '@mui/icons-material/Public';
 
+
 import './Map.css'
-import { Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import { Nav, Navbar, Offcanvas, Accordion, Card } from 'react-bootstrap';
 
 
 
@@ -85,14 +86,46 @@ const MapViewer = () => {
 
 
 
-        <Offcanvas show={show} onHide={handleClose} backdrop={false} style={{ margin: '4.5em', height: '92vh' }}>
+        <Offcanvas show={show} onHide={handleClose} backdrop={false} style={{ margin: '4.5em', height: '92vh', overflowY:'auto' }}>
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+            <Offcanvas.Title>
+
+            <Accordion  className='my-4' style={{marginTop:'6em'}}>
+      <Accordion.Item eventKey="0">
+        <Accordion.Header>Precipitation</Accordion.Header>
+        <Accordion.Body>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </Accordion.Body>
+      </Accordion.Item>
+      <Accordion.Item eventKey="1">
+        <Accordion.Header>Flood Map</Accordion.Header>
+        <Accordion.Body>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
+
+
+            </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
 
           </Offcanvas.Body>
         </Offcanvas>
+
+
 
 
 
