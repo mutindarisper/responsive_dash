@@ -28,13 +28,15 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Button, Slider, FormGroup, FormControlLabel, Switch } from '@mui/material';
+import { Button, Slider, FormGroup, FormControlLabel, Checkbox, Switch } from '@mui/material';
 
 
 import './Map.css'
 import { Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+
+let baseurl = "http://66.42.65.87";
 
 const accordionStyle = {
   backgroundColor: "#173f5f",
@@ -70,15 +72,13 @@ const useStyles = makeStyles({
 const MapViewer = () => {
   const classes = useStyles();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  let wmsLayer = useRef<L.TileLayer.WMS | null>(null)
+
   const mapRef = useRef<L.Map | null>(null);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs('2022-04-17'))
-
-  const [show, setShow] = useState(false)
-
-  const handleShow = () => setShow(true)
-  const handleClose = () => setShow(false)
-
-
+  const [selectedYear, setSelectedYear] = useState<string>('');
+  let yearwmsString = useRef<string>('');
+  const [opacity, setOpacity] = useState<number>(1);
 
   const options: string[] = ['operational', 'historical'];
   const sensors: string[] = ['sentinel', 'landsat'];
@@ -87,6 +87,14 @@ const MapViewer = () => {
   const [selectedSensorValue, setSelectedSensorValue] = useState<string>('');
   const [navselection, setNavselection] = useState<any>('')
 
+
+
+
+
+  const [show, setShow] = useState(false)
+
+  const handleShow = () => setShow(true)
+  const handleClose = () => setShow(false)
 
 
   const handleModeChange = (event: SelectChangeEvent) => {
@@ -101,9 +109,27 @@ const MapViewer = () => {
 
   const handleDateChange = (date: Dayjs | null) => {
     // console.log(date)
+    if (date) {
+      const yearString = date.year().toString(); // Convert the year to a string
+      setSelectedYear(yearString); // Set the selected year in state
+      // yearwmsString.current = yearString
+      // console.log('Selected year:', yearwmsString.current);
+     }
+    //  else {
+    // //   setSelectedYear(''); // Clear the selected year if date is null
+    // }
+
+    
     setSelectedDate(date);
   };
 
+  const handleOpacityChange = (event: Event, newValue: number | number[]) => {
+    if (typeof newValue === 'number' && wmsLayer.current) {
+      // Update the opacity of the WMS layer
+      wmsLayer.current.setOpacity(newValue/100);
+      setOpacity(newValue);
+    }
+  };
   const handleSelect = (selectedKey: any) => {
     console.log('Selected key:', selectedKey);
     setNavselection(selectedKey)
@@ -111,7 +137,59 @@ const MapViewer = () => {
   };
 
 
+  const addWMSLayerToMap = () => {
+    removeWMSLayerFromMap()
+
+
+    console.log(selectedYear)
+    const LulcwmsLayer = L.tileLayer.wms(`${baseurl}:8080/geoserver/LULC/wms?`, {
+      // pane: "pane400",
+      layers: `LULC:${selectedYear}`,
+      crs: L.CRS.EPSG4326,
+      styles: "zambezi_lulc",
+      format: "image/png",
+      transparent: true,
+      opacity: 1.0,
+    });
+
+    wmsLayer.current = LulcwmsLayer
+    if (mapRef.current && wmsLayer.current) {
+      // Add the WMS layer to the map
+
+      wmsLayer.current.addTo(mapRef.current);
+    }
+
+  }
+
+  const removeWMSLayerFromMap = () => {
+    if (mapRef.current && wmsLayer.current) {
+      // Remove the WMS layer from the map
+      mapRef.current.removeLayer(wmsLayer.current);
+    }
+  };
+
+
+  // const handleLULCLayer = () => {   
+  //   console.log(selectedYear)
+  //   const LulcwmsLayer = L.tileLayer.wms(`${baseurl}:8080/geoserver/LULC/wms?`, {
+  //     // pane: "pane400",
+  //     layers: `LULC:${selectedYear}`,
+  //     crs: L.CRS.EPSG4326,
+  //     styles: "zambezi_lulc",
+  //     format: "image/png",
+  //     transparent: true,
+  //     opacity: 1.0,
+  //   });
+
+  //   wmsLayer.current = LulcwmsLayer
+
+
+  // }
+  // handleLULCLayer()
+
+
   useEffect(() => {
+
     if (mapContainerRef.current) {
       // Check if a map instance already exists
       if (mapRef.current) {
@@ -140,7 +218,11 @@ const MapViewer = () => {
         mapRef.current.remove();
         mapRef.current = null;
       }
+
+     
     };
+
+
   }, []);
 
 
@@ -174,7 +256,7 @@ const MapViewer = () => {
 
 
 
-        <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em', height: '92vh', overflowY: 'auto', width: '25%' }}>
+        <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 3.6em', height: '90vh', overflowY: 'auto', width: '25%' }}>
           <Offcanvas.Header  >
             <CloseIcon onClick={handleClose} style={{ marginLeft: '17em', cursor: 'pointer' }} />
             <Offcanvas.Title>
@@ -182,7 +264,7 @@ const MapViewer = () => {
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            { navselection === 'primary_layers' ?
+            {navselection === 'primary_layers' ?
 
               <div className="selections" style={{ margin: '1.5em', }}>
                 <Accordion  >
@@ -198,14 +280,21 @@ const MapViewer = () => {
 
                     <Box sx={{ minWidth: 120 }}>
 
-                      <InputLabel id="select-label" style={{ margin: '0.5em' }}>Select Mode</InputLabel>
+
+                      <FormGroup>
+                        <FormControlLabel control={<Checkbox defaultChecked />} label="Potential Floods Water Map" />
+                        <p>Checked to overlay flood water area estimated from satellite imagery analysis</p>
+
+                      </FormGroup>
+
+                      <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Mode</p>
                       <FormControl variant="outlined" className={classes.formControl} fullWidth>
                         <Select
                           labelId="select-label"
                           id="select"
                           value={selectedValue}
                           onChange={handleModeChange}
-                          style={{ height: '2em' }}
+                          style={{ height: '2em', marginBottom: '0.5em' }}
 
                         >
                           {options.map((option) => (
@@ -216,14 +305,14 @@ const MapViewer = () => {
                         </Select>
                       </FormControl>
 
-                      <InputLabel id="select-label" style={{ margin: '0.5em' }}>Select Sensor</InputLabel>
+                      <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Sensor</p>
                       <FormControl variant="outlined" className={classes.formControl} fullWidth>
                         <Select
                           labelId="select-label"
                           id="select"
                           value={selectedSensorValue}
                           onChange={handleSensorChange}
-                          style={{ height: '2em' }}
+                          style={{ height: '2em', marginBottom: '0.5em', }}
 
                         >
                           {sensors.map((option) => (
@@ -234,7 +323,7 @@ const MapViewer = () => {
                         </Select>
                       </FormControl>
 
-                      <InputLabel id="select-label" style={{ margin: '0.5em' }}>Select Date (YYYY-MM-DD)</InputLabel>
+                      <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Date (YYYY-MM-DD)</p>
 
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker', 'DatePicker']}>
@@ -249,11 +338,17 @@ const MapViewer = () => {
                         </DemoContainer>
                       </LocalizationProvider>
 
-                      <Button variant="contained" disableElevation className='my-4'>
+                      <Button variant="contained" disableElevation className='my-4' onClick={addWMSLayerToMap}>
                         Request Layer
                       </Button>
                       <p className="opacity">Opacity</p>
-                      <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
+                      <Slider aria-label="Default"
+                        valueLabelDisplay="auto"
+                        value={opacity}
+                        onChange={handleOpacityChange}
+                        step={1}
+                        min={0}
+                        max={100} />
 
 
                     </Box>
