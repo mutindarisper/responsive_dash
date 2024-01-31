@@ -21,20 +21,22 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Button, Slider, FormGroup, FormControlLabel, Checkbox, Switch } from '@mui/material';
+import { Button, Slider, FormGroup, FormControlLabel, Checkbox, Switch, Card, CardContent, CardMedia } from '@mui/material';
 
 
 import './Map.css'
 import { Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+
+import mapbox from '../assets/images/basemap.png';
 
 let baseurl = "http://66.42.65.87";
 
@@ -71,14 +73,19 @@ const useStyles = makeStyles({
 
 const MapViewer = () => {
   const classes = useStyles();
+  const theme = useTheme();
+
+
+
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   let wmsLayer = useRef<L.TileLayer.WMS | null>(null)
 
   const mapRef = useRef<L.Map | null>(null);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs('2022-04-17'))
   const [selectedYear, setSelectedYear] = useState<string>('');
-  let yearwmsString = useRef<string>('');
+  // let yearwmsString = useRef<string>('');
   const [opacity, setOpacity] = useState<number>(1);
+  const [checked, setChecked] = useState<boolean>(false);
 
   const options: string[] = ['operational', 'historical'];
   const sensors: string[] = ['sentinel', 'landsat'];
@@ -114,19 +121,19 @@ const MapViewer = () => {
       setSelectedYear(yearString); // Set the selected year in state
       // yearwmsString.current = yearString
       // console.log('Selected year:', yearwmsString.current);
-     }
+    }
     //  else {
     // //   setSelectedYear(''); // Clear the selected year if date is null
     // }
 
-    
+
     setSelectedDate(date);
   };
 
   const handleOpacityChange = (event: Event, newValue: number | number[]) => {
     if (typeof newValue === 'number' && wmsLayer.current) {
       // Update the opacity of the WMS layer
-      wmsLayer.current.setOpacity(newValue/100);
+      wmsLayer.current.setOpacity(newValue / 100);
       setOpacity(newValue);
     }
   };
@@ -135,6 +142,20 @@ const MapViewer = () => {
     setNavselection(selectedKey)
 
   };
+  const handlesCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.checked)
+    setChecked(event.target.checked);
+  };
+  // const handlesProvinceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   console.log(event.target.checked)
+  //   setChecked(event.target.checked);
+  // };
+
+  // const handlesDistrictChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   console.log(event.target.checked)
+  //   setChecked(event.target.checked);
+  // };
+
 
 
   const addWMSLayerToMap = () => {
@@ -219,7 +240,7 @@ const MapViewer = () => {
         mapRef.current = null;
       }
 
-     
+
     };
 
 
@@ -242,12 +263,12 @@ const MapViewer = () => {
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey='secondary_layers'>
-                  <LayersIcon className='menu_icon' />
+                  <LayersIcon onClick={handleShow} className='menu_icon' />
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey='base_layers' >
-                  <PublicIcon className='menu_icon' />
+                  <PublicIcon onClick={handleShow} className='menu_icon' />
                 </Nav.Link>
               </Nav.Item>
             </Nav>
@@ -346,6 +367,7 @@ const MapViewer = () => {
                         valueLabelDisplay="auto"
                         value={opacity}
                         onChange={handleOpacityChange}
+
                         step={1}
                         min={0}
                         max={100} />
@@ -445,7 +467,138 @@ const MapViewer = () => {
 
               </div>
 
-              : 'boundaries'}
+              : navselection === 'secondary_layers' ?
+                <div className="boundaries">
+                  <FormGroup>
+                    <FormControlLabel control={<Switch defaultChecked
+                      checked={checked}
+                      onChange={handlesCountryChange}
+                    />} label="Country Boundary" />
+                    <FormControlLabel required control={<Switch />} label="Province Boundary" />
+                    <FormControlLabel control={<Switch />} label="District Boundary" />
+                  </FormGroup>
+
+                </div>
+                :
+
+                <div className="baselayers" style={{display:'flex', flexDirection:'column', gap:'1em'}}>
+                  <Card sx={{ display: 'flex',  }}>
+
+                    <CardMedia
+                      component="img"
+                      sx={{ width: 151 }}
+                      image={mapbox}
+                      alt="Mapbox"
+                    />
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography component="div" variant="h6">
+                          Mapbox Dark map
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.secondary" component="div">
+                          MapBox World Dark Streets Map
+                        </Typography>
+                      </CardContent>
+
+
+
+                    </Box>
+                  </Card>
+
+                  <Card sx={{ display: 'flex' }}>
+
+                    <CardMedia
+                      component="img"
+                      sx={{ width: 151 }}
+                      image={mapbox}
+                      alt="Mapbox"
+                    />
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography component="div" variant="h6">
+                          Mapbox Dark map
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.secondary" component="div">
+                          MapBox World Dark Streets Map
+                        </Typography>
+                      </CardContent>
+
+
+
+                    </Box>
+                  </Card>
+
+                  <Card sx={{ display: 'flex' }}>
+
+                    <CardMedia
+                      component="img"
+                      sx={{ width: 151 }}
+                      image={mapbox}
+                      alt="Mapbox"
+                    />
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography component="div" variant="h6">
+                          Mapbox Dark map
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.secondary" component="div">
+                          MapBox World Dark Streets Map
+                        </Typography>
+                      </CardContent>
+
+
+
+                    </Box>
+                  </Card>
+
+                  <Card sx={{ display: 'flex' }}>
+
+                    <CardMedia
+                      component="img"
+                      sx={{ width: 151 }}
+                      image={mapbox}
+                      alt="Mapbox"
+                    />
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography component="div" variant="h6">
+                          Mapbox Dark map
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.secondary" component="div">
+                          MapBox World Dark Streets Map
+                        </Typography>
+                      </CardContent>
+
+
+
+                    </Box>
+                  </Card>
+
+                  <Card sx={{ display: 'flex'}}>
+
+                    <CardMedia
+                      component="img"
+                      sx={{ width: 151 }}
+                      image={mapbox}
+                      alt="Mapbox"
+                    />
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography component="div" variant="h6">
+                          Mapbox Dark map
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.secondary" component="div">
+                          MapBox World Dark Streets Map
+                        </Typography>
+                      </CardContent>
+
+
+
+                    </Box>
+                  </Card>
+                </div>
+
+            }
 
 
 
