@@ -2,7 +2,7 @@
 
 import { Routes, Route } from "react-router-dom"
 import HomePage from "./components/HomePage"
-import MapViewer from "./components/MapViewer"
+import MapView from "./components/Map"
 
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
    <Routes>
 
     <Route path="/" element={<HomePage />}> </Route>
-    <Route path="/mapviewer" element={<MapViewer />}> </Route>
+    <Route path="/mapviewer" element={<MapView />}> </Route>
    </Routes>
     
     </>

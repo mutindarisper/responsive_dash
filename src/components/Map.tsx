@@ -3,36 +3,29 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigationbar from './Navigationbar';
-import MenuIcon from '@mui/icons-material/Menu'
-import LayersIcon from '@mui/icons-material/Layers'
-import PublicIcon from '@mui/icons-material/Public';
 
-import Accordion from '@mui/material/Accordion';
 // import AccordionActions from '@mui/material/AccordionActions';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
-import FloodIcon from '@mui/icons-material/Flood';
 
 
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { makeStyles, useTheme } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Button, Slider, FormGroup, FormControlLabel, Checkbox, Switch, Card, CardContent, CardMedia } from '@mui/material';
 import { Air, Waves, LocalFireDepartment, Thunderstorm, WaterDrop, Thermostat, Park, WbSunny } from '@mui/icons-material';
 
 
 import './Map.css'
-import { Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import { Nav, Navbar, Offcanvas, Stack } from 'react-bootstrap';
 import Typography from '@mui/material/Typography';
 
 import mapbox from '../assets/images/basemap.png';
@@ -40,28 +33,9 @@ import mapbox from '../assets/images/basemap.png';
 let baseurl = "http://66.42.65.87";
 
 const navbarStyle = {
-  backgroundColor: "#173f5f",
+  backgroundColor: "#0b4336",
   padding: '1em 5em',
   
-  // marginBottom: "20px"
-};
-
-
-const accordionStyle = {
-  backgroundColor: "#173f5f",
-  color: '#fff',
-  height: '.5em',
-  // padding: '2.5em 1em',
-
-  // marginBottom: "20px"
-};
-
-const accordionIconStyle = {
-
-  color: '#fff',
-
-  // padding: '1em 5em',
-
   // marginBottom: "20px"
 };
 
@@ -74,11 +48,17 @@ const useStyles = makeStyles({
   datePicker: {
     '& .MuiInputBase-root': {
       height: '2em', // Adjust the height as needed
+      width:'9.5em',
+      overflowX: 'hidden',
+      overflowY: 'hidden',
+      fontSize:'1em',
+       borderRadius:'1em'
     },
   },
+ 
 });
 
-const MapViewer = () => {
+const MapView = () => {
   const classes = useStyles();
 
 
@@ -90,10 +70,10 @@ const MapViewer = () => {
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs('2022-04-17'))
   const [selectedYear, setSelectedYear] = useState<string>('');
   // let yearwmsString = useRef<string>('');
-  const [opacity, setOpacity] = useState<number>(1);
+  const [opacity, setOpacity] = useState<number>(100);
   const [checked, setChecked] = useState<boolean>(false);
 
-  const options: string[] = ['operational', 'historical'];
+  const options: string[] = ['user-drawn Boundary', 'geoJSON Boundary'];
   const sensors: string[] = ['sentinel', 'landsat'];
 
   const [selectedValue, setSelectedValue] = useState<string>('');
@@ -196,23 +176,7 @@ const MapViewer = () => {
   };
 
 
-  // const handleLULCLayer = () => {   
-  //   console.log(selectedYear)
-  //   const LulcwmsLayer = L.tileLayer.wms(`${baseurl}:8080/geoserver/LULC/wms?`, {
-  //     // pane: "pane400",
-  //     layers: `LULC:${selectedYear}`,
-  //     crs: L.CRS.EPSG4326,
-  //     styles: "zambezi_lulc",
-  //     format: "image/png",
-  //     transparent: true,
-  //     opacity: 1.0,
-  //   });
-
-  //   wmsLayer.current = LulcwmsLayer
-
-
-  // }
-  // handleLULCLayer()
+ 
 
 
   useEffect(() => {
@@ -257,60 +221,62 @@ const MapViewer = () => {
   return (
     <>
       <Navigationbar />
-      <div ref={mapContainerRef} style={{ height: '92.5vh', zIndex: 20 }}>
-        <Navbar bg="dark" expand="lg" className="flex-column" style={{ maxWidth: '3vw', height: '90vh', zIndex: 500,  backgroundColor: "#173f5f",
-    padding: '1em 4em', }}>
+      <div ref={mapContainerRef} style={{ height: '98.5vh', zIndex: 20 }}>
+        <Navbar  expand="lg" className="flex-column" style={{
+          maxWidth: '3vw', height: '90vh', zIndex: 500, backgroundColor: "#086a53",
+          padding: '1em 4em',
+        }}>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="flex-column" style={{ alignItems: 'flex-start', marginTop: '-15vh', gap:'.2em',   }} onSelect={handleSelect}>
+            <Nav className="flex-column" style={{ alignItems: 'flex-start', marginTop: '-15vh', gap: '.2em', fontWeight:'bold' }} onSelect={handleSelect}>
 
               <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color:'#fff', }} eventKey='airquality' >
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='airquality' >
                   <Air onClick={handleShow} className='menu_icon' />
                   <p>Air Quality</p>
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color:'#fff', whiteSpace:'normal' }} eventKey='transpiration'>
+                <Nav.Link className="flex-column" style={{ color: '#fff', whiteSpace: 'normal' }} eventKey='transpiration'>
                   <Waves onClick={handleShow} className='menu_icon' />
                   <p>Evapo Transpiration</p>
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color:'#fff', }} eventKey='fire' >
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='fire' >
                   <LocalFireDepartment onClick={handleShow} className='menu_icon' />
                   <p>Fire</p>
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color:'#fff', }} eventKey='precipitation' >
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='precipitation' >
                   <Thunderstorm onClick={handleShow} className='menu_icon' />
                   <p>Precipitation</p>
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color:'#fff', wordBreak:'break-all' }} eventKey='soil'>
+                <Nav.Link className="flex-column" style={{ color: '#fff', wordBreak: 'break-all' }} eventKey='soil'>
                   <WaterDrop onClick={handleShow} className='menu_icon' />
                   <p>Soil Moisture</p>
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color:'#fff', }} eventKey='temperature' >
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='temperature' >
                   <Thermostat onClick={handleShow} className='menu_icon' />
                   <p>Temperature</p>
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color:'#fff', }} eventKey='vegetation' >
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='vegetation' >
                   <Park onClick={handleShow} className='menu_icon' />
                   <p>Vegetation</p>
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color:'#fff', }} eventKey='weather' >
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='weather' >
                   <WbSunny onClick={handleShow} className='menu_icon' />
                   <p>Weather</p>
                 </Nav.Link>
@@ -321,191 +287,154 @@ const MapViewer = () => {
 
 
 
-        <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 5.6em', height: '90vh', overflowY: 'auto', width: '25%' }}>
+        <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 5.6em', height: '90vh', overflowY: 'auto', width: '20%', backgroundColor:'#e9ecef', fontfamily:'Roboto',  }}>
           <Offcanvas.Header  >
-            <CloseIcon onClick={handleClose} style={{ marginLeft: '17em', cursor: 'pointer' }} />
+            <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} />
             <Offcanvas.Title>
 
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            {navselection === 'primary_layers' ?
+            {navselection === 'airquality' ?
 
-              <div className="selections" style={{ margin: '1.5em', }}>
-                <Accordion  >
-                  <AccordionSummary
-                    style={accordionStyle}
-                    expandIcon={<ExpandMoreIcon style={accordionIconStyle} />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                  >
-                    <p className="title"><FloodIcon /> Potential Floods Water</p>
-                  </AccordionSummary>
-                  <AccordionDetails>
+              <div className="selections" style={{ padding: '0', }}>
+                <Box sx={{ minWidth: 120 }}>
 
-                    <Box sx={{ minWidth: 120 }}>
+                  <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Boundary</p>
+                  <FormControl variant="outlined" className={classes.formControl} fullWidth>
+                    <Select
+                      labelId="select-label"
+                      id="select"
+                      value={selectedValue}
+                      onChange={handleModeChange}
+                      style={{ height: '2em', marginBottom: '0.5em',  }}
 
+                    >
+                      {options.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option.charAt(0).toUpperCase() + option.slice(1)}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                      <FormGroup>
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Potential Floods Water Map" />
-                        <p>Checked to overlay flood water area estimated from satellite imagery analysis</p>
+                  <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Dataset</p>
+                  <FormControl variant="outlined" className={classes.formControl} fullWidth>
+                    <Select
+                      labelId="select-label"
+                      id="select"
+                      value={selectedSensorValue}
+                      onChange={handleSensorChange}
+                      style={{ height: '2em', marginBottom: '0.5em', }}
 
-                      </FormGroup>
+                    >
+                      {sensors.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option.charAt(0).toUpperCase() + option.slice(1)}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                      <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Mode</p>
-                      <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                        <Select
-                          labelId="select-label"
-                          id="select"
-                          value={selectedValue}
-                          onChange={handleModeChange}
-                          style={{ height: '2em', marginBottom: '0.5em' }}
+                  <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Band</p>
+                  <FormControl variant="outlined" className={classes.formControl} fullWidth>
+                    <Select
+                      labelId="select-label"
+                      id="select"
+                      value={selectedSensorValue}
+                      onChange={handleSensorChange}
+                      style={{ height: '2em', marginBottom: '0.5em', }}
 
-                        >
-                          {options.map((option) => (
-                            <MenuItem key={option} value={option}>
-                              {option.charAt(0).toUpperCase() + option.slice(1)}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                    >
+                      {sensors.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option.charAt(0).toUpperCase() + option.slice(1)}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                      <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Sensor</p>
-                      <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                        <Select
-                          labelId="select-label"
-                          id="select"
-                          value={selectedSensorValue}
-                          onChange={handleSensorChange}
-                          style={{ height: '2em', marginBottom: '0.5em', }}
+                  <Stack direction="horizontal" style={{gap:'8em', marginBottom:'-1em'}}>
+                  <p id="select-label"  style={{ fontWeight: '500' }}>Start Date</p>
+                  <p id="select-label"  style={{ fontWeight: '500' }}>End Date</p>
+                  </Stack>
 
-                        >
-                          {sensors.map((option) => (
-                            <MenuItem key={option} value={option}>
-                              {option.charAt(0).toUpperCase() + option.slice(1)}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                 
 
-                      <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Date (YYYY-MM-DD)</p>
-
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['DatePicker', 'DatePicker']}>
-
+                  <Stack  direction="horizontal" style={{  marginBottom:'.5em'}}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    
+                      <div className="wrap">
+                        <DemoContainer components={['DatePicker', 'DatePicker']}     >
                           <DatePicker
-
+                        
                             value={selectedDate}
                             onChange={handleDateChange}
                             format="YYYY-MM-DD"
                             className={classes.datePicker}
                           />
                         </DemoContainer>
-                      </LocalizationProvider>
+                      </div>
+                    
+                  </LocalizationProvider>
 
-                      <Button variant="contained" disableElevation className='my-4' onClick={addWMSLayerToMap}>
-                        Request Layer
-                      </Button>
-                      <p className="opacity">Opacity</p>
-                      <Slider aria-label="Default"
-                        valueLabelDisplay="auto"
-                        value={opacity}
-                        onChange={handleOpacityChange}
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <div className="wrap2">
+                      <DemoContainer components={['DatePicker', 'DatePicker']}>
+                        <DatePicker
+                      
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                          format="YYYY-MM-DD"
+                          className={classes.datePicker}
+                        />
+                      </DemoContainer>
+                    </div>
+                  </LocalizationProvider>
 
-                        step={1}
-                        min={0}
-                        max={100} />
+                  </Stack>
 
+                  <p id="select-label" style={{ marginTop: '1.5em', fontWeight: '500' }}>Select Statistics</p>
+                  <FormControl variant="outlined" className={classes.formControl} fullWidth>
+                    <Select
+                      labelId="select-label"
+                      id="select"
+                      value={selectedSensorValue}
+                      onChange={handleSensorChange}
+                      style={{ height: '2em', marginBottom: '0.5em', }}
 
-                    </Box>
-
-
-                  </AccordionDetails>
-                </Accordion>
-
-
-                <Accordion >
-                  <AccordionSummary
-                    style={accordionStyle}
-                    expandIcon={<ExpandMoreIcon style={accordionIconStyle} />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                  >
-                    <p className="title"> <FloodIcon /> Flood depth map</p>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                    malesuada lacus ex, sit amet blandit leo lobortis eget.
-                  </AccordionDetails>
-                </Accordion>
-
-
-                <Accordion  >
-
-                  <AccordionSummary
-                    style={accordionStyle}
-                    expandIcon={<ExpandMoreIcon style={accordionIconStyle} />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                  >
-                    <p className="title"> <FloodIcon /> Flood age map</p>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                    malesuada lacus ex, sit amet blandit leo lobortis eget.
-                  </AccordionDetails>
-                </Accordion>
+                    >
+                      {sensors.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option.charAt(0).toUpperCase() + option.slice(1)}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
 
-                <Accordion  >
-                  <AccordionSummary
-                    style={accordionStyle}
-                    expandIcon={<ExpandMoreIcon style={accordionIconStyle} />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                  >
-                    <p className="title"> <FloodIcon /> Permanent water</p>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                    malesuada lacus ex, sit amet blandit leo lobortis eget.
-                  </AccordionDetails>
-                </Accordion>
+                  
+
+                  <Button variant="contained" color="success" disableElevation className='my-4' onClick={addWMSLayerToMap}>
+                    Run
+                  </Button>
+                  <p className="opacity">Opacity</p>
+
+                  {/* <Box sx={{ width: 300 }}> */}
+                  <Slider aria-label="Default"
+                    valueLabelDisplay="auto"
+                    value={opacity}
+                    onChange={handleOpacityChange}
+                    color="success"
+                    step={1}
+                    min={0}
+                    max={100}
+                    style={{width:'10em'}} />
+                  {/* </Box> */}
+                 
 
 
-
-
-                <Accordion  >
-                  <AccordionSummary
-                    style={accordionStyle}
-                    expandIcon={<ExpandMoreIcon style={accordionIconStyle} />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                  >
-                    <p className="title"> <FloodIcon /> Precipitation data</p>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                    malesuada lacus ex, sit amet blandit leo lobortis eget.
-                  </AccordionDetails>
-                </Accordion>
-
-
-
-                <Accordion  >
-                  <AccordionSummary
-                    style={accordionStyle}
-                    expandIcon={<ExpandMoreIcon style={accordionIconStyle} />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                  >
-                    <p className="title"> <FloodIcon /> Raw satellite imagery</p>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                    malesuada lacus ex, sit amet blandit leo lobortis eget.
-                  </AccordionDetails>
-                </Accordion>
+                </Box>
 
 
 
@@ -666,4 +595,4 @@ const MapViewer = () => {
   )
 }
 
-export default MapViewer
+export default MapView

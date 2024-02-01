@@ -35,8 +35,9 @@ const Navigationbar = () => {
   //   </div>
   // );
   const navbarStyle = {
-    backgroundColor: "#173f5f",
+    backgroundColor: "#0b4336",
     padding: '1em 5em',
+    fontfamily:'Roboto',
     
     // marginBottom: "20px"
   };
@@ -47,7 +48,7 @@ const Navigationbar = () => {
 
   return (
     <Navbar style={navbarStyle} variant="dark" expand="md">
-      <Navbar.Brand href="#home">HYDRAFloods Viewer</Navbar.Brand>
+      <Navbar.Brand href="#home">Test</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
@@ -56,7 +57,7 @@ const Navigationbar = () => {
         <Nav className="ml-auto" > {/* Align links to the right with ml-auto */}
           <Nav.Link style={navLinkStyle} href="#home">Home</Nav.Link>
           <Nav.Link style={navLinkStyle} href="/mapviewer">Map Viewer</Nav.Link>
-          <Nav.Link style={navLinkStyle} href="#use-cases">Use Cases</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="#use-cases">Dashboard</Nav.Link>
           <NavDropdown style={navLinkStyle} title="User Materials" id="basic-nav-dropdown">
             <NavDropdown.Item href="#user-manual">User Manual</NavDropdown.Item>
             <NavDropdown.Item href="#github-repository">Github Repository</NavDropdown.Item>
