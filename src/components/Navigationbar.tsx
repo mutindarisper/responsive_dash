@@ -64,7 +64,7 @@ const Navigationbar = () => {
             <NavDropdown.Item href="#it-admin-manual">IT Admin Manual</NavDropdown.Item>
           </NavDropdown>
           <Nav.Link style={navLinkStyle} href="#about">About</Nav.Link>
-          <Nav.Link style={navLinkStyle} href="/signup">signup</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="/signup">Signup</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

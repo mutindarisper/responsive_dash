@@ -7,6 +7,7 @@ import Navigationbar from './Navigationbar';
 // import AccordionActions from '@mui/material/AccordionActions';
 // import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 
 import Box from '@mui/material/Box';
@@ -20,8 +21,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Button, Slider, FormGroup, FormControlLabel, Checkbox, Switch, Card, CardContent, CardMedia } from '@mui/material';
-import { Air, Waves, LocalFireDepartment, Thunderstorm, WaterDrop, Thermostat, Park, WbSunny } from '@mui/icons-material';
+import { Button, Slider, FormGroup, FormControlLabel, Checkbox, Switch, Card, CardContent, CardMedia, CircularProgress } from '@mui/material';
+import { Air, Waves, LocalFireDepartment, Thunderstorm, WaterDrop, Thermostat, Park, WbSunny, Settings } from '@mui/icons-material';
 
 
 import './Map.css'
@@ -29,13 +30,14 @@ import { Nav, Navbar, Offcanvas, Stack } from 'react-bootstrap';
 import Typography from '@mui/material/Typography';
 
 import mapbox from '../assets/images/basemap.png';
+import Legend from './Legend';
 
 let baseurl = "http://66.42.65.87";
 
 const navbarStyle = {
   backgroundColor: "#0b4336",
   padding: '1em 5em',
-  
+
   // marginBottom: "20px"
 };
 
@@ -48,14 +50,14 @@ const useStyles = makeStyles({
   datePicker: {
     '& .MuiInputBase-root': {
       height: '2em', // Adjust the height as needed
-      width:'9.5em',
+      width: '9.5em',
       overflowX: 'hidden',
       overflowY: 'hidden',
-      fontSize:'1em',
-       borderRadius:'1em'
+      fontSize: '1em',
+      borderRadius: '1em'
     },
   },
- 
+
 });
 
 const MapView = () => {
@@ -79,15 +81,20 @@ const MapView = () => {
   const [selectedValue, setSelectedValue] = useState<string>('');
   const [selectedSensorValue, setSelectedSensorValue] = useState<string>('');
   const [navselection, setNavselection] = useState<any>('')
+  const [isLoading, setLoading] = useState(false)
 
 
 
 
 
   const [show, setShow] = useState(false)
+  const [showLegend, setshowLegend] = useState(false)
 
   const handleShow = () => setShow(true)
   const handleClose = () => setShow(false)
+
+  const handleShowLegend = () => setshowLegend(true)
+  const handleCloseLegend = () => setshowLegend(false)
 
 
   const handleModeChange = (event: SelectChangeEvent) => {
@@ -146,11 +153,11 @@ const MapView = () => {
 
   const addWMSLayerToMap = () => {
     removeWMSLayerFromMap()
+    setshowLegend(true)
 
 
     console.log(selectedYear)
     const LulcwmsLayer = L.tileLayer.wms(`${baseurl}:8080/geoserver/LULC/wms?`, {
-      // pane: "pane400",
       layers: `LULC:${selectedYear}`,
       crs: L.CRS.EPSG4326,
       styles: "zambezi_lulc",
@@ -160,6 +167,14 @@ const MapView = () => {
     });
 
     wmsLayer.current = LulcwmsLayer
+
+    wmsLayer.current.on('loading', () => {
+      setLoading(true)
+    });
+
+    wmsLayer.current.on('load', () => {
+      setLoading(false)
+    });
     if (mapRef.current && wmsLayer.current) {
       // Add the WMS layer to the map
 
@@ -176,9 +191,6 @@ const MapView = () => {
   };
 
 
- 
-
-
   useEffect(() => {
 
     if (mapContainerRef.current) {
@@ -192,7 +204,7 @@ const MapView = () => {
       // Create a new map instance
       const map = L.map(mapContainerRef.current, {
         zoomControl: false,
-      }).setView([-1.2, 33,], 4);
+      }).setView([-15.280429913912881, 26.978118886920633], 6);
       L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
       }).addTo(map);
@@ -222,13 +234,13 @@ const MapView = () => {
     <>
       <Navigationbar />
       <div ref={mapContainerRef} style={{ height: '98.5vh', zIndex: 20 }}>
-        <Navbar  expand="lg" className="flex-column" style={{
+        <Navbar expand="lg" className="flex-column" style={{
           maxWidth: '3vw', height: '90vh', zIndex: 500, backgroundColor: "#086a53",
           padding: '1em 4em',
         }}>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="flex-column" style={{ alignItems: 'flex-start', marginTop: '-15vh', gap: '.2em', fontWeight:'bold' }} onSelect={handleSelect}>
+            <Nav className="flex-column" style={{ alignItems: 'flex-start', marginTop: '-15vh', gap: '.2em', fontWeight: 'bold' }} onSelect={handleSelect}>
 
               <Nav.Item>
                 <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='airquality' >
@@ -287,7 +299,7 @@ const MapView = () => {
 
 
 
-        <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 5.6em', height: '90vh', overflowY: 'auto', width: '20%', backgroundColor:'#e9ecef', fontfamily:'Roboto',  }}>
+        <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 5.6em', height: '90vh', overflowY: 'auto', width: '20%', backgroundColor: '#e9ecef', fontfamily: 'Roboto', }}>
           <Offcanvas.Header  >
             <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} />
             <Offcanvas.Title>
@@ -307,7 +319,7 @@ const MapView = () => {
                       id="select"
                       value={selectedValue}
                       onChange={handleModeChange}
-                      style={{ height: '2em', marginBottom: '0.5em',  }}
+                      style={{ height: '2em', marginBottom: '0.5em', }}
 
                     >
                       {options.map((option) => (
@@ -354,20 +366,20 @@ const MapView = () => {
                     </Select>
                   </FormControl>
 
-                  <Stack direction="horizontal" style={{gap:'8em', marginBottom:'-1em'}}>
-                  <p id="select-label"  style={{ fontWeight: '500' }}>Start Date</p>
-                  <p id="select-label"  style={{ fontWeight: '500' }}>End Date</p>
+                  <Stack direction="horizontal" style={{ gap: '8em', marginBottom: '-1em' }}>
+                    <p id="select-label" style={{ fontWeight: '500' }}>Start Date</p>
+                    <p id="select-label" style={{ fontWeight: '500' }}>End Date</p>
                   </Stack>
 
-                 
 
-                  <Stack  direction="horizontal" style={{  marginBottom:'.5em'}}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    
+
+                  <Stack direction="horizontal" style={{ marginBottom: '.5em' }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+
                       <div className="wrap">
                         <DemoContainer components={['DatePicker', 'DatePicker']}     >
                           <DatePicker
-                        
+
                             value={selectedDate}
                             onChange={handleDateChange}
                             format="YYYY-MM-DD"
@@ -375,22 +387,22 @@ const MapView = () => {
                           />
                         </DemoContainer>
                       </div>
-                    
-                  </LocalizationProvider>
 
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <div className="wrap2">
-                      <DemoContainer components={['DatePicker', 'DatePicker']}>
-                        <DatePicker
-                      
-                          value={selectedDate}
-                          onChange={handleDateChange}
-                          format="YYYY-MM-DD"
-                          className={classes.datePicker}
-                        />
-                      </DemoContainer>
-                    </div>
-                  </LocalizationProvider>
+                    </LocalizationProvider>
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <div className="wrap2">
+                        <DemoContainer components={['DatePicker', 'DatePicker']}>
+                          <DatePicker
+
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            format="YYYY-MM-DD"
+                            className={classes.datePicker}
+                          />
+                        </DemoContainer>
+                      </div>
+                    </LocalizationProvider>
 
                   </Stack>
 
@@ -413,25 +425,13 @@ const MapView = () => {
                   </FormControl>
 
 
-                  
 
-                  <Button variant="contained" color="success" disableElevation className='my-4' onClick={addWMSLayerToMap}>
+
+                  <Button variant="contained" style={{ backgroundColor: '#086a53' }} disableElevation className='my-4' onClick={addWMSLayerToMap} startIcon={<Settings />}>
                     Run
                   </Button>
-                  <p className="opacity">Opacity</p>
 
-                  {/* <Box sx={{ width: 300 }}> */}
-                  <Slider aria-label="Default"
-                    valueLabelDisplay="auto"
-                    value={opacity}
-                    onChange={handleOpacityChange}
-                    color="success"
-                    step={1}
-                    min={0}
-                    max={100}
-                    style={{width:'10em'}} />
-                  {/* </Box> */}
-                 
+
 
 
                 </Box>
@@ -578,13 +578,35 @@ const MapView = () => {
           </Offcanvas.Body>
         </Offcanvas>
 
-
-
-
+        {
+          isLoading &&
+          <CircularProgress
+          color="success"
+            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex:500 }}
+          />
+        }
 
 
 
       </div>
+
+
+      {
+        showLegend &&
+
+        <Offcanvas show={showLegend} backdrop={false} style={{ margin: '4.5em 29.8em', height: '40vh', overflowY: 'auto', width: '15%', backgroundColor: '#e9ecef', fontfamily: 'Roboto', }}>
+          <Offcanvas.Header  >
+            <ChevronLeftIcon onClick={handleCloseLegend} style={{ marginLeft: '10em', cursor: 'pointer' }} />
+            <Offcanvas.Title>
+
+            </Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <Legend onOpacityChange={handleOpacityChange} />
+          </Offcanvas.Body>
+        </Offcanvas>
+
+      }
 
 
 

@@ -57,7 +57,7 @@ const ParentComponent = () => {
             {
                 label: 'Monthly Sales',
                 data: monthlySalesData.map((entry) => entry.sales),
-                backgroundColor: 'rgba(75,192,192,0.2)',
+                backgroundColor: 'rgba(75,192,192,0.5)',
                 borderColor: 'rgba(75,192,192,1)',
                 borderWidth: 1,
             },
@@ -87,7 +87,7 @@ const ParentComponent = () => {
 
     return (
         <div className="parent_data">
-            <button onClick={generateRandomSales}>Generate Random Sales</button>
+            <button onClick={generateRandomSales}>Generate Stats</button>
 
             <Drawer
                 anchor="bottom"
