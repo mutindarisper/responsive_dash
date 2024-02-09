@@ -37,8 +37,8 @@ const Navigationbar = () => {
   const navbarStyle = {
     backgroundColor: "#0b4336",
     padding: '1em 5em',
-    fontfamily:'Roboto',
-    
+    fontfamily: 'Roboto',
+
     // marginBottom: "20px"
   };
 
@@ -48,23 +48,33 @@ const Navigationbar = () => {
 
   return (
     <Navbar style={navbarStyle} variant="dark" expand="md">
-      <Navbar.Brand href="#home">Test</Navbar.Brand>
+      <Navbar.Brand href="#home">dMRV</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-      <Nav className="me-auto">
-            
-            </Nav>
+
         <Nav className="ml-auto" > {/* Align links to the right with ml-auto */}
           <Nav.Link style={navLinkStyle} href="#home">Home</Nav.Link>
           <Nav.Link style={navLinkStyle} href="/mapviewer">Map Viewer</Nav.Link>
           <Nav.Link style={navLinkStyle} href="#use-cases">Dashboard</Nav.Link>
-          <NavDropdown style={navLinkStyle} title="User Materials" id="basic-nav-dropdown">
+          {/* <NavDropdown style={navLinkStyle} title="User Materials" id="basic-nav-dropdown">
             <NavDropdown.Item href="#user-manual">User Manual</NavDropdown.Item>
             <NavDropdown.Item href="#github-repository">Github Repository</NavDropdown.Item>
             <NavDropdown.Item href="#it-admin-manual">IT Admin Manual</NavDropdown.Item>
-          </NavDropdown>
-          <Nav.Link style={navLinkStyle} href="#about">About</Nav.Link>
-          <Nav.Link style={navLinkStyle} href="/signup">Signup</Nav.Link>
+          </NavDropdown> */}
+          <Nav.Link style={navLinkStyle} href="#about">Ancillary</Nav.Link>
+
+
+        </Nav>
+        <Nav className="me-auto">
+
+        </Nav>
+
+        <Nav className="ml-auto">
+
+          <Nav.Link style={navLinkStyle} href="/signup">Search</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="/signup">Notifications</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="/signup">Account</Nav.Link>
+
         </Nav>
       </Navbar.Collapse>
     </Navbar>

@@ -21,8 +21,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Button, Slider, FormGroup, FormControlLabel, Checkbox, Switch, Card, CardContent, CardMedia, CircularProgress } from '@mui/material';
-import { Air, Waves, LocalFireDepartment, Thunderstorm, WaterDrop, Thermostat, Park, WbSunny, Settings } from '@mui/icons-material';
+import { Button, Slider, FormGroup, FormControlLabel, Checkbox, Switch, Card, CardContent, CardMedia, CircularProgress, Tab, Tabs } from '@mui/material';
+import { Map, Co2, Forest, Air, Waves, LocalFireDepartment, Thunderstorm, WaterDrop, Thermostat, Park, WbSunny, Settings, Pets } from '@mui/icons-material';
 
 
 import './Map.css'
@@ -31,6 +31,39 @@ import Typography from '@mui/material/Typography';
 
 import mapbox from '../assets/images/basemap.png';
 import Legend from './Legend';
+
+type TabPanelProps = {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `vertical-tab-${index}`,
+    'aria-controls': `vertical-tabpanel-${index}`,
+  };
+}
 
 let baseurl = "http://66.42.65.87";
 
@@ -60,7 +93,7 @@ const useStyles = makeStyles({
 
 });
 
-const MapView = () => {
+const MapView = ({ children, value, index }:  TabPanelProps) => {
   const classes = useStyles();
 
 
@@ -83,12 +116,15 @@ const MapView = () => {
   const [navselection, setNavselection] = useState<any>('')
   const [isLoading, setLoading] = useState(false)
 
-
-
-
-
   const [show, setShow] = useState(false)
   const [showLegend, setshowLegend] = useState(false)
+
+  const [tabvalue, setTabValue] = useState(0);
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
 
   const handleShow = () => setShow(true)
   const handleClose = () => setShow(false)
@@ -233,73 +269,82 @@ const MapView = () => {
   return (
     <>
       <Navigationbar />
+      
       <div ref={mapContainerRef} style={{ height: '98.5vh', zIndex: 20 }}>
-        <Navbar expand="lg" className="flex-column" style={{
+        {/* <Navbar expand="lg" className="flex-column" style={{
           maxWidth: '3vw', height: '90vh', zIndex: 500, backgroundColor: "#086a53",
-          padding: '1em 4em',
+          padding: '1em 5em',
         }}>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="flex-column" style={{ alignItems: 'flex-start', marginTop: '-15vh', gap: '.2em', fontWeight: 'bold' }} onSelect={handleSelect}>
+            <Nav className="flex-column" style={{ alignItems: 'flex-start', marginTop: '-40vh', gap: '.2em', fontWeight: 'bold' }} onSelect={handleSelect}>
 
-              <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='airquality' >
-                  <Air onClick={handleShow} className='menu_icon' />
-                  <p>Air Quality</p>
-                </Nav.Link>
-              </Nav.Item>
-
-              <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', whiteSpace: 'normal' }} eventKey='transpiration'>
-                  <Waves onClick={handleShow} className='menu_icon' />
-                  <p>Evapo Transpiration</p>
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='fire' >
-                  <LocalFireDepartment onClick={handleShow} className='menu_icon' />
-                  <p>Fire</p>
+            <Nav.Item>
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='treecover' >
+                  <Forest onClick={handleShow} className='menu_icon' />
+                  <p>Tree Cover</p>
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='precipitation' >
-                  <Thunderstorm onClick={handleShow} className='menu_icon' />
-                  <p>Precipitation</p>
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='landuse'>
+                  <Map onClick={handleShow} className='menu_icon' />
+                  <p>Land Use</p>
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', wordBreak: 'break-all' }} eventKey='soil'>
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='carbon' >
+                  <Co2 onClick={handleShow} className='menu_icon' />
+                  <p>Carbon Stock</p>
+                </Nav.Link>
+              </Nav.Item>
+
+              <Nav.Item>
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='biodiversity' >
+                  <Pets onClick={handleShow} className='menu_icon' />
+                  <p>Biodiversity</p>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='soil'>
                   <WaterDrop onClick={handleShow} className='menu_icon' />
-                  <p>Soil Moisture</p>
+                  <p>Soil & Water</p>
                 </Nav.Link>
               </Nav.Item>
-              <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='temperature' >
-                  <Thermostat onClick={handleShow} className='menu_icon' />
-                  <p>Temperature</p>
-                </Nav.Link>
-              </Nav.Item>
+             
 
-              <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='vegetation' >
-                  <Park onClick={handleShow} className='menu_icon' />
-                  <p>Vegetation</p>
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='weather' >
-                  <WbSunny onClick={handleShow} className='menu_icon' />
-                  <p>Weather</p>
-                </Nav.Link>
-              </Nav.Item>
             </Nav>
           </Navbar.Collapse>
-        </Navbar>
+        </Navbar> */}
+
+<Box
+      style={{position: 'absolute',
+        top: '0', /* Adjust top positioning as needed */
+        left: '0vw',height: '90vh', zIndex: 1000,}}
+      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224,  }}
+    >
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={tabvalue}
+        onChange={handleTabChange}
+        aria-label="Vertical tabs example"
+        sx={{ borderRight: 1, borderColor: 'divider' }}
+      >
+        <Tab icon={<Forest onClick={handleShow} />}  label="Tree Cover" {...a11yProps(0)} />
+        <Tab icon={<Map onClick={handleShow} />} label="Land Use" {...a11yProps(1)} />
+        <Tab icon={<Co2 onClick={handleShow} />} label="Carbon Stock" {...a11yProps(2)} />
+        <Tab icon={<Pets onClick={handleShow} />} label="Biodiversity" {...a11yProps(3)} />
+        <Tab icon={<WaterDrop onClick={handleShow} />} label="Soil & Water" {...a11yProps(4)} />
+        {/* <Tab label="Item Six" {...a11yProps(5)} />
+        <Tab label="Item Seven" {...a11yProps(6)} /> */}
+      </Tabs>
+     
+    </Box>
 
 
 
-        <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 5.6em', height: '90vh', overflowY: 'auto', width: '20%', backgroundColor: '#e9ecef', fontfamily: 'Roboto', }}>
+        <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 8.6em', height: '90vh', overflowY: 'auto', width: '20%', backgroundColor: '#e9ecef', fontfamily: 'Roboto', }}>
           <Offcanvas.Header  >
             <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} />
             <Offcanvas.Title>
@@ -307,7 +352,29 @@ const MapView = () => {
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            {navselection === 'airquality' ?
+
+          <TabPanel value={tabvalue} index={0}>
+        Item One
+      </TabPanel>
+      <TabPanel value={tabvalue} index={1}>
+        Item Two
+      </TabPanel>
+      <TabPanel value={tabvalue} index={2}>
+        Item Three
+      </TabPanel>
+      <TabPanel value={tabvalue} index={3}>
+        Item Four
+      </TabPanel>
+      <TabPanel value={tabvalue} index={4}>
+        Item Five
+      </TabPanel>
+      <TabPanel value={tabvalue} index={5}>
+        Item Six
+      </TabPanel>
+      <TabPanel value={tabvalue} index={6}>
+        Item Seven
+      </TabPanel>
+            {/* {navselection === 'treecover' || 'landuse'|| 'carbonstock' || 'biodiversity' || 'soil' ?
 
               <div className="selections" style={{ padding: '0', }}>
                 <Box sx={{ minWidth: 120 }}>
@@ -571,7 +638,7 @@ const MapView = () => {
                   </Card>
                 </div>
 
-            }
+            } */}
 
 
 
