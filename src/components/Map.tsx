@@ -15,6 +15,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { makeStyles } from '@mui/styles';
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -90,10 +92,33 @@ const useStyles = makeStyles({
       borderRadius: '1em'
     },
   },
+  tabLabel: {
+    textTransform: 'capitalize',
+    fontfamily: 'Poppins',
+    fontWeight: '800',
+  },
 
 });
 
-const MapView = ({ children, value, index }:  TabPanelProps) => {
+const navLinkStyle = {
+  color: "#5b5e57",
+  fontWeight: '700'
+};
+
+
+const theme = createTheme({
+
+  palette: {
+    primary: {
+      main: '#4caf50',
+      // Change the primary color to green
+
+
+    },
+  },
+});
+
+const MapView = () => {
   const classes = useStyles();
 
 
@@ -120,6 +145,8 @@ const MapView = ({ children, value, index }:  TabPanelProps) => {
   const [showLegend, setshowLegend] = useState(false)
 
   const [tabvalue, setTabValue] = useState(0);
+
+
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -268,113 +295,75 @@ const MapView = ({ children, value, index }:  TabPanelProps) => {
 
   return (
     <>
-      <Navigationbar />
-      
-      <div ref={mapContainerRef} style={{ height: '98.5vh', zIndex: 20 }}>
-        {/* <Navbar expand="lg" className="flex-column" style={{
-          maxWidth: '3vw', height: '90vh', zIndex: 500, backgroundColor: "#086a53",
-          padding: '1em 5em',
-        }}>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="flex-column" style={{ alignItems: 'flex-start', marginTop: '-40vh', gap: '.2em', fontWeight: 'bold' }} onSelect={handleSelect}>
+      <ThemeProvider theme={theme}>
+        <Navigationbar />
 
-            <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='treecover' >
-                  <Forest onClick={handleShow} className='menu_icon' />
-                  <p>Tree Cover</p>
-                </Nav.Link>
-              </Nav.Item>
+        <div ref={mapContainerRef} style={{ height: '98.5vh', zIndex: 20 }}>
 
-              <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='landuse'>
-                  <Map onClick={handleShow} className='menu_icon' />
-                  <p>Land Use</p>
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='carbon' >
-                  <Co2 onClick={handleShow} className='menu_icon' />
-                  <p>Carbon Stock</p>
-                </Nav.Link>
-              </Nav.Item>
+          <Box
+            style={{
+              position: 'absolute',
+              top: '0', /* Adjust top positioning as needed */
+              left: '0vw', height: '90vh', zIndex: 1000, backgroundColor: '#e5f3d2',
+            }}
 
-              <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='biodiversity' >
-                  <Pets onClick={handleShow} className='menu_icon' />
-                  <p>Biodiversity</p>
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link className="flex-column" style={{ color: '#fff', }} eventKey='soil'>
-                  <WaterDrop onClick={handleShow} className='menu_icon' />
-                  <p>Soil & Water</p>
-                </Nav.Link>
-              </Nav.Item>
-             
+            sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224, }}
+          >
+            <Tabs
+              onClick={handleShow}
+              orientation="vertical"
+              variant="scrollable"
+              value={tabvalue}
+              onChange={handleTabChange}
+              aria-label="Vertical tabs example"
+              sx={{ borderRight: 1, borderColor: 'divider', fontWeight: 'bold' }}
+              // style={navLinkStyle}
+              style={{ fontWeight: '700' }}
+            >
+              <Tab icon={<Forest />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Forest Cover</Typography>} {...a11yProps(4)} />
+              <Tab icon={<Forest />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Tree Cover</Typography>} {...a11yProps(1)} />
+              <Tab icon={<Map />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Land Use</Typography>} {...a11yProps(1)} />
+              <Tab icon={<Pets />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Biodiversity</Typography>} {...a11yProps(3)} />
+              <Tab icon={<WaterDrop />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Soil & Water</Typography>} {...a11yProps(4)} />
 
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar> */}
 
-<Box
-      style={{position: 'absolute',
-        top: '0', /* Adjust top positioning as needed */
-        left: '0vw',height: '90vh', zIndex: 1000,}}
-      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224,  }}
-    >
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={tabvalue}
-        onChange={handleTabChange}
-        aria-label="Vertical tabs example"
-        sx={{ borderRight: 1, borderColor: 'divider' }}
-      >
-        <Tab icon={<Forest onClick={handleShow} />}  label="Tree Cover" {...a11yProps(0)} />
-        <Tab icon={<Map onClick={handleShow} />} label="Land Use" {...a11yProps(1)} />
-        <Tab icon={<Co2 onClick={handleShow} />} label="Carbon Stock" {...a11yProps(2)} />
-        <Tab icon={<Pets onClick={handleShow} />} label="Biodiversity" {...a11yProps(3)} />
-        <Tab icon={<WaterDrop onClick={handleShow} />} label="Soil & Water" {...a11yProps(4)} />
-        {/* <Tab label="Item Six" {...a11yProps(5)} />
-        <Tab label="Item Seven" {...a11yProps(6)} /> */}
-      </Tabs>
-     
-    </Box>
+            </Tabs>
+
+          </Box>
 
 
 
-        <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 8.6em', height: '90vh', overflowY: 'auto', width: '20%', backgroundColor: '#e9ecef', fontfamily: 'Roboto', }}>
-          <Offcanvas.Header  >
-            <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} />
-            <Offcanvas.Title>
+          <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 8.4em', height: '90vh', overflowY: 'auto', width: '20%', backgroundColor: '#f9f9f9', fontfamily: 'Roboto', }}>
+            <Offcanvas.Header  >
+              <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} />
+              <Offcanvas.Title>
 
-            </Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
+              </Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
 
-          <TabPanel value={tabvalue} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={tabvalue} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={tabvalue} index={2}>
-        Item Three
-      </TabPanel>
-      <TabPanel value={tabvalue} index={3}>
-        Item Four
-      </TabPanel>
-      <TabPanel value={tabvalue} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={tabvalue} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={tabvalue} index={6}>
-        Item Seven
-      </TabPanel>
-            {/* {navselection === 'treecover' || 'landuse'|| 'carbonstock' || 'biodiversity' || 'soil' ?
+              <TabPanel value={tabvalue} index={0}>
+                Item One
+              </TabPanel>
+              <TabPanel value={tabvalue} index={1}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={tabvalue} index={2}>
+                Item Three
+              </TabPanel>
+              <TabPanel value={tabvalue} index={3}>
+                Item Four
+              </TabPanel>
+              <TabPanel value={tabvalue} index={4}>
+                Item Five
+              </TabPanel>
+              <TabPanel value={tabvalue} index={5}>
+                Item Six
+              </TabPanel>
+              <TabPanel value={tabvalue} index={6}>
+                Item Seven
+              </TabPanel>
+              {/* {navselection === 'treecover' || 'landuse'|| 'carbonstock' || 'biodiversity' || 'soil' ?
 
               <div className="selections" style={{ padding: '0', }}>
                 <Box sx={{ minWidth: 120 }}>
@@ -642,42 +631,42 @@ const MapView = ({ children, value, index }:  TabPanelProps) => {
 
 
 
-          </Offcanvas.Body>
-        </Offcanvas>
+            </Offcanvas.Body>
+          </Offcanvas>
+
+          {
+            isLoading &&
+            <CircularProgress
+              color="success"
+              style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 500 }}
+            />
+          }
+
+
+
+        </div>
+
 
         {
-          isLoading &&
-          <CircularProgress
-          color="success"
-            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex:500 }}
-          />
+          showLegend &&
+
+          <Offcanvas show={showLegend} backdrop={false} style={{ margin: '4.5em 29.8em', height: '40vh', overflowY: 'auto', width: '15%', backgroundColor: '#e9ecef', fontfamily: 'Roboto', }}>
+            <Offcanvas.Header  >
+              <ChevronLeftIcon onClick={handleCloseLegend} style={{ marginLeft: '10em', cursor: 'pointer' }} />
+              <Offcanvas.Title>
+
+              </Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              <Legend onOpacityChange={handleOpacityChange} />
+            </Offcanvas.Body>
+          </Offcanvas>
+
         }
 
 
 
-      </div>
-
-
-      {
-        showLegend &&
-
-        <Offcanvas show={showLegend} backdrop={false} style={{ margin: '4.5em 29.8em', height: '40vh', overflowY: 'auto', width: '15%', backgroundColor: '#e9ecef', fontfamily: 'Roboto', }}>
-          <Offcanvas.Header  >
-            <ChevronLeftIcon onClick={handleCloseLegend} style={{ marginLeft: '10em', cursor: 'pointer' }} />
-            <Offcanvas.Title>
-
-            </Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
-            <Legend onOpacityChange={handleOpacityChange} />
-          </Offcanvas.Body>
-        </Offcanvas>
-
-      }
-
-
-
-
+      </ThemeProvider>
 
     </>
 

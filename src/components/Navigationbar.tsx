@@ -35,20 +35,23 @@ const Navigationbar = () => {
   //   </div>
   // );
   const navbarStyle = {
-    backgroundColor: "#0b4336",
+    backgroundColor: "#ddeec6",
     padding: '1em 5em',
-    fontfamily: 'Roboto',
+    fontfamily: 'Poppins',
+    fontWeight:'700',
+    color: "#5b5e57",
 
     // marginBottom: "20px"
   };
 
   const navLinkStyle = {
-    color: "white",
+    color: "#5b5e57",
+    fontWeight:'700'
   };
 
   return (
     <Navbar style={navbarStyle} variant="dark" expand="md">
-      <Navbar.Brand href="#home">dMRV</Navbar.Brand>
+      <Navbar.Brand href="#home" style={navLinkStyle}>dMRV</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
 
@@ -61,7 +64,11 @@ const Navigationbar = () => {
             <NavDropdown.Item href="#github-repository">Github Repository</NavDropdown.Item>
             <NavDropdown.Item href="#it-admin-manual">IT Admin Manual</NavDropdown.Item>
           </NavDropdown> */}
-          <Nav.Link style={navLinkStyle} href="#about">Ancillary</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="#about">Carbon</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="#about">Commodities</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="#about">Yield</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="#about">Trend</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="#about">Agriculture</Nav.Link>
 
 
         </Nav>
