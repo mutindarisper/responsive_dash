@@ -17,13 +17,13 @@ const Legend = ({onOpacityChange}: Props) => {
 
 
     return (
-        <Box sx={{ width: '100%', typography: 'body1', bgcolor: '#ddd' }}>
+        <Box sx={{ width: '100%', typography: 'body1', bgcolor: '#fff' }}>
             <TabContext value={value} >
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} style={{ marginLeft:'2em' }} >
-                        <Tab icon={<Layers />} label="Legend" value="1" style={{ backgroundColor: value === '1' ? '#086a53' : 'inherit', color: value === '1' ? 'white' : 'inherit' }} />
-                        <Tab icon={<BarChart />} label="Analysis" value="2" style={{ backgroundColor: value === '2' ? '#086a53' : 'inherit', color: value === '2' ? 'white' : 'inherit' }} />
-                        {/* <Tab icon={<BarChart />} label="Analysis3" value="3" style={{ backgroundColor: value === '2' ? '#086a53' : 'inherit', color: value === '3' ? 'white' : 'inherit' }} /> */}
+                        <Tab icon={<Layers />} label="Legend" value="1"  />
+                        <Tab icon={<BarChart />} label="Analysis" value="2" />
+                        {/* <Tab icon={<BarChart />} label="Analysis3" value="3" style={{ backgroundColor: value === '2' ? '#086a53' : 'inherit', color: value === '3' ? 'white' : 'inherit' }} style={{ backgroundColor: value === '1' ? '#ddeec6' : 'inherit', color: value === '1' ? '#5b5e57' : 'inherit' }} style={{ backgroundColor: value === '2' ? '#ddeec6' : 'inherit', color: value === '2' ? '#5b5e57' : 'inherit' }}   /> */}
                     </TabList>
                 </Box>
                 <TabPanel value="1">

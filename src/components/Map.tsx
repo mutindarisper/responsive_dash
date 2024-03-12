@@ -33,6 +33,7 @@ import Typography from '@mui/material/Typography';
 
 import mapbox from '../assets/images/basemap.png';
 import Legend from './Legend';
+import Counter from './Counter'
 
 type TabPanelProps = {
   children?: React.ReactNode;
@@ -69,12 +70,6 @@ function a11yProps(index: number) {
 
 let baseurl = "http://66.42.65.87";
 
-const navbarStyle = {
-  backgroundColor: "#0b4336",
-  padding: '1em 5em',
-
-  // marginBottom: "20px"
-};
 
 const useStyles = makeStyles({
   formControl: {
@@ -297,8 +292,12 @@ const MapView = () => {
     <>
       <ThemeProvider theme={theme}>
         <Navigationbar />
+        {/* <div className="counter" style={{ position:'absolute', top:'30vh',left:'20vw', padding:'3em', zIndex: 2000 }}>
+        <Counter />
+        </div> */}
 
         <div ref={mapContainerRef} style={{ height: '98.5vh', zIndex: 20 }}>
+         
 
           <Box
             style={{
@@ -320,7 +319,7 @@ const MapView = () => {
               // style={navLinkStyle}
               style={{ fontWeight: '700' }}
             >
-              <Tab icon={<Forest />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Forest Cover</Typography>} {...a11yProps(4)} />
+              <Tab icon={<Forest onClick={addWMSLayerToMap} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Forest Cover</Typography>} {...a11yProps(4)} />
               <Tab icon={<Forest />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Tree Cover</Typography>} {...a11yProps(1)} />
               <Tab icon={<Map />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Land Use</Typography>} {...a11yProps(1)} />
               <Tab icon={<Pets />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Biodiversity</Typography>} {...a11yProps(3)} />
@@ -333,7 +332,7 @@ const MapView = () => {
 
 
 
-          <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 8.4em', height: '90vh', overflowY: 'auto', width: '20%', backgroundColor: '#f9f9f9', fontfamily: 'Roboto', }}>
+          <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 8.4em', height: '90vh', overflowY: 'auto', width: '20%', backgroundColor: '#f9f9f9', fontfamily: 'Poppins', }}>
             <Offcanvas.Header  >
               <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} />
               <Offcanvas.Title>
@@ -650,7 +649,7 @@ const MapView = () => {
         {
           showLegend &&
 
-          <Offcanvas show={showLegend} backdrop={false} style={{ margin: '4.5em 29.8em', height: '40vh', overflowY: 'auto', width: '15%', backgroundColor: '#e9ecef', fontfamily: 'Roboto', }}>
+          <Offcanvas show={showLegend} backdrop={false} style={{ margin: '4.5em 32.5em', height: '40vh', overflowY: 'auto', width: '15%', backgroundColor: '#fff', fontfamily: 'Poppins', }}>
             <Offcanvas.Header  >
               <ChevronLeftIcon onClick={handleCloseLegend} style={{ marginLeft: '10em', cursor: 'pointer' }} />
               <Offcanvas.Title>

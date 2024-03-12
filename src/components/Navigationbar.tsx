@@ -1,52 +1,34 @@
-
+import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import { changeMode } from '../store/map/CounterSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../store/store'
 
-
-
+const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
 const Navigationbar = () => {
-  // return (
-  //   <div className="div-navigation">
-  //     <div className="nav-navbar">
-  //       <div className="list-navbar-nav">
-  //         <div className="link-nav-link">
-  //           <div className="text-wrapper">Feedback</div>
-  //         </div>
-  //         <div className="div-wrapper">
-  //           <div className="text-wrapper">About</div>
-  //         </div>
-  //         <div className="link-navbardropdown">
-  //           <div className="span" />
-  //           <div className="text-wrapper">User Materials</div>
-  //         </div>
-  //         <div className="div">
-  //           <div className="text-wrapper">Use Cases</div>
-  //         </div>
-  //         <div className="link-nav-link-2">
-  //           <div className="text-wrapper">Map Viewer</div>
-  //         </div>
-  //         <div className="link-nav-link-3">
-  //           <div className="text-wrapper-2">Home</div>
-  //         </div>
-  //       </div>
-  //       <div className="text-wrapper-3">HYDRAFloods Viewer</div>
-  //     </div>
-  //   </div>
-  // );
+  const theme = useTheme();
+  const colorMode = React.useContext(ColorModeContext);
+
+ 
+
   const navbarStyle = {
-    backgroundColor: "#ddeec6",
+    backgroundColor: theme.palette.mode === 'light' ? "#ddeec6" : '#000',
     padding: '1em 5em',
     fontfamily: 'Poppins',
-    fontWeight:'700',
-    color: "#5b5e57",
+    fontWeight: '700',
+    color: theme.palette.mode === 'light' ? "#5b5e57" : '#fff',
 
     // marginBottom: "20px"
   };
 
   const navLinkStyle = {
-    color: "#5b5e57",
-    fontWeight:'700'
+    color: theme.palette.mode === 'light' ? "#5b5e57" : '#fff',
+    fontWeight: '700'
   };
 
   return (
@@ -57,7 +39,7 @@ const Navigationbar = () => {
 
         <Nav className="ml-auto" > {/* Align links to the right with ml-auto */}
           <Nav.Link style={navLinkStyle} href="#home">Home</Nav.Link>
-          <Nav.Link style={navLinkStyle} href="/mapviewer">Map Viewer</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="/mapviewer">Map</Nav.Link>
           <Nav.Link style={navLinkStyle} href="#use-cases">Dashboard</Nav.Link>
           {/* <NavDropdown style={navLinkStyle} title="User Materials" id="basic-nav-dropdown">
             <NavDropdown.Item href="#user-manual">User Manual</NavDropdown.Item>
@@ -68,7 +50,7 @@ const Navigationbar = () => {
           <Nav.Link style={navLinkStyle} href="#about">Commodities</Nav.Link>
           <Nav.Link style={navLinkStyle} href="#about">Yield</Nav.Link>
           <Nav.Link style={navLinkStyle} href="#about">Trend</Nav.Link>
-          <Nav.Link style={navLinkStyle} href="#about">Agriculture</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="/">Agriculture</Nav.Link>
 
 
         </Nav>
@@ -81,6 +63,15 @@ const Navigationbar = () => {
           <Nav.Link style={navLinkStyle} href="/signup">Search</Nav.Link>
           <Nav.Link style={navLinkStyle} href="/signup">Notifications</Nav.Link>
           <Nav.Link style={navLinkStyle} href="/signup">Account</Nav.Link>
+          <Nav.Link style={navLinkStyle} >
+            {theme.palette.mode} mode
+          </Nav.Link>
+
+          <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+            {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
+
+
 
         </Nav>
       </Navbar.Collapse>
@@ -88,4 +79,51 @@ const Navigationbar = () => {
   );
 }
 
-export default Navigationbar
+// export default Navigationbar
+
+export default function ToggleColorMode() {
+  const storeMode = useSelector((state: RootState) => state.mode);
+  const dispatch: AppDispatch = useDispatch();
+  const [mode, setMode] = React.useState<'light' | 'dark'>('light');
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        // console.log(mode)
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+       
+
+        
+      },
+      
+    }),
+    [],
+  );
+
+  const theme = React.useMemo(
+    () => 
+      createTheme({
+        palette: {
+          mode,
+        },
+      }),
+
+      
+    [mode],
+  );
+
+  const showMode = () => {
+    console.log(theme.palette.mode)
+  dispatch(changeMode(theme.palette.mode));
+
+  }
+  showMode()
+  
+
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <Navigationbar />
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );
+}
