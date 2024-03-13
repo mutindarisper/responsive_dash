@@ -16,15 +16,15 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { makeStyles } from '@mui/styles';
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import dayjs, { Dayjs } from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Button, Slider, FormGroup, FormControlLabel, Checkbox, Switch, Card, CardContent, CardMedia, CircularProgress, Tab, Tabs } from '@mui/material';
-import { Map, Co2, Forest, Air, Waves, LocalFireDepartment, Thunderstorm, WaterDrop, Thermostat, Park, WbSunny, Settings, Pets } from '@mui/icons-material';
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { CircularProgress, Tab, Tabs } from '@mui/material';
+import { Map, Forest,  WaterDrop, Pets } from '@mui/icons-material';
 
 
 import './Map.css'
@@ -33,7 +33,11 @@ import Typography from '@mui/material/Typography';
 
 import mapbox from '../assets/images/basemap.png';
 import Legend from './Legend';
-import Counter from './Counter'
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../store/store'
+
+// const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
+
 
 type TabPanelProps = {
   children?: React.ReactNode;
@@ -95,11 +99,6 @@ const useStyles = makeStyles({
 
 });
 
-const navLinkStyle = {
-  color: "#5b5e57",
-  fontWeight: '700'
-};
-
 
 const theme = createTheme({
 
@@ -115,6 +114,13 @@ const theme = createTheme({
 
 const MapView = () => {
   const classes = useStyles();
+  const storeMode = useSelector((state: RootState) => state.mode);
+  console.log(storeMode)
+
+
+  // const theme = useTheme();
+  // const colorMode = React.useContext(ColorModeContext);
+
 
 
 
@@ -250,6 +256,7 @@ const MapView = () => {
 
 
   useEffect(() => {
+   
 
     if (mapContainerRef.current) {
       // Check if a map instance already exists
@@ -303,7 +310,7 @@ const MapView = () => {
             style={{
               position: 'absolute',
               top: '0', /* Adjust top positioning as needed */
-              left: '0vw', height: '90vh', zIndex: 1000, backgroundColor: '#e5f3d2',
+              left: '0vw', height: '90vh', zIndex: 1000, backgroundColor: storeMode === 'light' ? '#e5f3d2' : '#000',
             }}
 
             sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224, }}
@@ -319,11 +326,11 @@ const MapView = () => {
               // style={navLinkStyle}
               style={{ fontWeight: '700' }}
             >
-              <Tab icon={<Forest onClick={addWMSLayerToMap} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Forest Cover</Typography>} {...a11yProps(4)} />
-              <Tab icon={<Forest />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Tree Cover</Typography>} {...a11yProps(1)} />
-              <Tab icon={<Map />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Land Use</Typography>} {...a11yProps(1)} />
-              <Tab icon={<Pets />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Biodiversity</Typography>} {...a11yProps(3)} />
-              <Tab icon={<WaterDrop />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} className={classes.tabLabel}>Soil & Water</Typography>} {...a11yProps(4)} />
+              <Tab icon={<Forest style={{color:storeMode === 'light' ? '#5b5e57' : '#fff' }}  onClick={addWMSLayerToMap} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#fff'}  className={classes.tabLabel}>Forest Cover</Typography>} {...a11yProps(4)} />
+              <Tab icon={<Forest style={{color:storeMode === 'light' ? '#5b5e57' : '#fff' }} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#fff'}  className={classes.tabLabel}>Tree Cover</Typography>} {...a11yProps(1)} />
+              <Tab icon={<Map style={{color:storeMode === 'light' ? '#5b5e57' : '#fff' }} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#fff'}  className={classes.tabLabel}>Land Use</Typography>} {...a11yProps(1)} />
+              <Tab icon={<Pets style={{color:storeMode === 'light' ? '#5b5e57' : '#fff' }} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#fff'}  className={classes.tabLabel}>Biodiversity</Typography>} {...a11yProps(3)} />
+              <Tab icon={<WaterDrop style={{color:storeMode === 'light' ? '#5b5e57' : '#fff' }} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} color={storeMode === 'light' ? '#5b5e57' : '#fff'}  className={classes.tabLabel}>Soil & Water</Typography>} {...a11yProps(4)} />
 
 
             </Tabs>
@@ -673,3 +680,45 @@ const MapView = () => {
 }
 
 export default MapView
+
+// export default function ToggleColorMode() {
+//   const storeMode = useSelector((state: RootState) => state.mode);
+//   const dispatch: AppDispatch = useDispatch();
+//   const [mode, setMode] = React.useState<'light' | 'dark'>('light');
+//   const colorMode = React.useMemo(
+//     () => ({
+//       toggleColorMode: () => {
+//         // console.log(mode)
+//         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+       
+
+        
+//       },
+      
+//     }),
+//     [],
+//   );
+
+//   const theme = React.useMemo(
+//     () => 
+//       createTheme({
+//         palette: {
+//           mode,
+//         },
+//       }),
+
+      
+//     [mode],
+//   );
+
+  
+  
+
+//   return (
+//     <ColorModeContext.Provider value={colorMode}>
+//       <ThemeProvider theme={theme}>
+//         <Navigationbar />
+//       </ThemeProvider>
+//     </ColorModeContext.Provider>
+//   );
+// }
