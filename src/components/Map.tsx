@@ -4,31 +4,26 @@ import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigationbar from './Navigationbar';
 
-// import AccordionActions from '@mui/material/AccordionActions';
-// import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 
-import Box from '@mui/material/Box';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { makeStyles } from '@mui/styles';
 
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import dayjs, { Dayjs } from 'dayjs';
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { CircularProgress, Tab, Tabs } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { CircularProgress, Tab, Tabs, Box, Stack, FormGroup, MenuItem, FormControl, FormControlLabel, Switch, Divider, List, ListItem } from '@mui/material';
 import { Map, Forest,  WaterDrop, Pets } from '@mui/icons-material';
 
 
 import './Map.css'
-import { Nav, Navbar, Offcanvas, Stack } from 'react-bootstrap';
+import { Nav, Navbar, Offcanvas,  } from 'react-bootstrap';
 import Typography from '@mui/material/Typography';
 
 import mapbox from '../assets/images/basemap.png';
@@ -84,17 +79,24 @@ const useStyles = makeStyles({
   datePicker: {
     '& .MuiInputBase-root': {
       height: '2em', // Adjust the height as needed
-      width: '9.5em',
+      // width: '10.5em',
       overflowX: 'hidden',
       overflowY: 'hidden',
       fontSize: '1em',
-      borderRadius: '1em'
+      borderRadius: '.5em'
     },
   },
   tabLabel: {
     textTransform: 'capitalize',
     fontfamily: 'Poppins',
     fontWeight: '800',
+  },
+  typography: {
+    fontFamily: [
+      'Poppins',
+      
+      'sans-serif',
+    ].join(','),
   },
 
 });
@@ -217,7 +219,7 @@ const MapView = () => {
 
   const addWMSLayerToMap = () => {
     removeWMSLayerFromMap()
-    setshowLegend(true)
+    // setshowLegend(true)
 
 
     console.log(selectedYear)
@@ -310,7 +312,7 @@ const MapView = () => {
             style={{
               position: 'absolute',
               top: '0', /* Adjust top positioning as needed */
-              left: '0vw', height: '90vh', zIndex: 1000, backgroundColor: storeMode === 'light' ? '#e5f3d2' : '#000',
+              left: '0vw', height: '90vh', zIndex: 1000, backgroundColor: storeMode === 'light' ? '#e5f3d2' : '#484A48',
             }}
 
             sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224, }}
@@ -323,14 +325,15 @@ const MapView = () => {
               onChange={handleTabChange}
               aria-label="Vertical tabs example"
               sx={{ borderRight: 1, borderColor: 'divider', fontWeight: 'bold' }}
-              // style={navLinkStyle}
+              // style={navLinkStyle  style={{color:storeMode === 'light' ? '#4CAF50' : '#fff' }} style={{color:storeMode === 'light' ? '#4CAF50' : '#fff' }}
+
               style={{ fontWeight: '700' }}
             >
-              <Tab icon={<Forest style={{color:storeMode === 'light' ? '#5b5e57' : '#fff' }}  onClick={addWMSLayerToMap} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#fff'}  className={classes.tabLabel}>Forest Cover</Typography>} {...a11yProps(4)} />
-              <Tab icon={<Forest style={{color:storeMode === 'light' ? '#5b5e57' : '#fff' }} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#fff'}  className={classes.tabLabel}>Tree Cover</Typography>} {...a11yProps(1)} />
-              <Tab icon={<Map style={{color:storeMode === 'light' ? '#5b5e57' : '#fff' }} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#fff'}  className={classes.tabLabel}>Land Use</Typography>} {...a11yProps(1)} />
-              <Tab icon={<Pets style={{color:storeMode === 'light' ? '#5b5e57' : '#fff' }} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#fff'}  className={classes.tabLabel}>Biodiversity</Typography>} {...a11yProps(3)} />
-              <Tab icon={<WaterDrop style={{color:storeMode === 'light' ? '#5b5e57' : '#fff' }} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} color={storeMode === 'light' ? '#5b5e57' : '#fff'}  className={classes.tabLabel}>Soil & Water</Typography>} {...a11yProps(4)} />
+              <Tab icon={<Forest  onClick={addWMSLayerToMap} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Forest Cover</Typography>} {...a11yProps(4)} />
+              <Tab icon={<Forest  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Tree Cover</Typography>} {...a11yProps(1)} />
+              <Tab icon={<Map  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Land Use</Typography>} {...a11yProps(1)} />
+              <Tab icon={<Pets  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Biodiversity</Typography>} {...a11yProps(3)} />
+              <Tab icon={<WaterDrop  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Soil & Water</Typography>} {...a11yProps(4)} />
 
 
             </Tabs>
@@ -339,17 +342,86 @@ const MapView = () => {
 
 
 
-          <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 8.4em', height: '90vh', overflowY: 'auto', width: '20%', backgroundColor: '#f9f9f9', fontfamily: 'Poppins', }}>
+          <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 8.4em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: '#f9f9f9',  }}>
             <Offcanvas.Header  >
               <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} />
               <Offcanvas.Title>
 
               </Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body>
+            <Offcanvas.Body style={{fontFamily: 'Poppins'}}>
 
-              <TabPanel value={tabvalue} index={0}>
-                Item One
+              <TabPanel value={tabvalue} index={0} >
+              <Typography fontFamily="Poppins" marginBottom={'1em'} fontWeight={'bold'}  marginTop={'-2em'} fontSize={'1.5em'}>Forest Cover Change</Typography>
+            
+              <Typography fontFamily="Poppins" fontWeight={'bold'} >Select date</Typography>
+
+                <Stack direction="row" spacing={12}>
+                  <Typography fontFamily="Poppins" fontWeight={'bold'} >Start</Typography>
+                  <Typography fontFamily="Poppins" fontWeight={'bold'} >End</Typography>
+                </Stack>
+
+
+                <Stack direction="row" spacing={2  }>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+                          <DatePicker
+                            
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            format="YYYY-MM-DD"
+                            className={classes.datePicker}
+                          />
+                        </DemoContainer>
+                      </LocalizationProvider>
+
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+                          <DatePicker
+                            
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            format="YYYY-MM-DD"
+                            className={classes.datePicker}
+                          />
+                        </DemoContainer>
+                      </LocalizationProvider>
+
+                </Stack>
+
+
+                <FormGroup>
+                  <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Forest cover loss</Typography>}/>
+                  <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Forest cover gain</Typography>} />
+                  <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Net Forest Change</Typography>} />
+                  <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Forest loss by dominant driver</Typography>} />
+                  
+                </FormGroup>
+
+
+                <List >
+      
+    <Divider variant="middle" component="li" />
+    <Typography fontFamily="Poppins" style={{fontWeight:'bold', margin:'.5em'}}>Deforestation Alerts</Typography>
+   
+    <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Near realtime alerts</Typography>} />
+    <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Areas to watch</Typography>} />
+
+
+   
+     <Divider variant="middle" component="li"  />
+     <Typography fontFamily="Poppins" style={{fontWeight:'bold', margin:'.5em'}}>Fires</Typography>
+     <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Fire alerts</Typography>} />
+    <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Areas to watch</Typography>} />
+    <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Global fire index</Typography>} />
+    <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Tree cover loss due to fires</Typography>} />
+   
+       
+    </List>
+              
+               
               </TabPanel>
               <TabPanel value={tabvalue} index={1}>
                 Item Two
@@ -369,272 +441,7 @@ const MapView = () => {
               <TabPanel value={tabvalue} index={6}>
                 Item Seven
               </TabPanel>
-              {/* {navselection === 'treecover' || 'landuse'|| 'carbonstock' || 'biodiversity' || 'soil' ?
-
-              <div className="selections" style={{ padding: '0', }}>
-                <Box sx={{ minWidth: 120 }}>
-
-                  <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Boundary</p>
-                  <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                    <Select
-                      labelId="select-label"
-                      id="select"
-                      value={selectedValue}
-                      onChange={handleModeChange}
-                      style={{ height: '2em', marginBottom: '0.5em', }}
-
-                    >
-                      {options.map((option) => (
-                        <MenuItem key={option} value={option}>
-                          {option.charAt(0).toUpperCase() + option.slice(1)}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-                  <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Dataset</p>
-                  <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                    <Select
-                      labelId="select-label"
-                      id="select"
-                      value={selectedSensorValue}
-                      onChange={handleSensorChange}
-                      style={{ height: '2em', marginBottom: '0.5em', }}
-
-                    >
-                      {sensors.map((option) => (
-                        <MenuItem key={option} value={option}>
-                          {option.charAt(0).toUpperCase() + option.slice(1)}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-                  <p id="select-label" style={{ marginBottom: '0.5em', fontWeight: '500' }}>Select Band</p>
-                  <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                    <Select
-                      labelId="select-label"
-                      id="select"
-                      value={selectedSensorValue}
-                      onChange={handleSensorChange}
-                      style={{ height: '2em', marginBottom: '0.5em', }}
-
-                    >
-                      {sensors.map((option) => (
-                        <MenuItem key={option} value={option}>
-                          {option.charAt(0).toUpperCase() + option.slice(1)}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-                  <Stack direction="horizontal" style={{ gap: '8em', marginBottom: '-1em' }}>
-                    <p id="select-label" style={{ fontWeight: '500' }}>Start Date</p>
-                    <p id="select-label" style={{ fontWeight: '500' }}>End Date</p>
-                  </Stack>
-
-
-
-                  <Stack direction="horizontal" style={{ marginBottom: '.5em' }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-                      <div className="wrap">
-                        <DemoContainer components={['DatePicker', 'DatePicker']}     >
-                          <DatePicker
-
-                            value={selectedDate}
-                            onChange={handleDateChange}
-                            format="YYYY-MM-DD"
-                            className={classes.datePicker}
-                          />
-                        </DemoContainer>
-                      </div>
-
-                    </LocalizationProvider>
-
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <div className="wrap2">
-                        <DemoContainer components={['DatePicker', 'DatePicker']}>
-                          <DatePicker
-
-                            value={selectedDate}
-                            onChange={handleDateChange}
-                            format="YYYY-MM-DD"
-                            className={classes.datePicker}
-                          />
-                        </DemoContainer>
-                      </div>
-                    </LocalizationProvider>
-
-                  </Stack>
-
-                  <p id="select-label" style={{ marginTop: '1.5em', fontWeight: '500' }}>Select Statistics</p>
-                  <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                    <Select
-                      labelId="select-label"
-                      id="select"
-                      value={selectedSensorValue}
-                      onChange={handleSensorChange}
-                      style={{ height: '2em', marginBottom: '0.5em', }}
-
-                    >
-                      {sensors.map((option) => (
-                        <MenuItem key={option} value={option}>
-                          {option.charAt(0).toUpperCase() + option.slice(1)}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-
-
-
-                  <Button variant="contained" style={{ backgroundColor: '#086a53' }} disableElevation className='my-4' onClick={addWMSLayerToMap} startIcon={<Settings />}>
-                    Run
-                  </Button>
-
-
-
-
-                </Box>
-
-
-
-              </div>
-
-              : navselection === 'secondary_layers' ?
-                <div className="boundaries">
-                  <FormGroup>
-                    <FormControlLabel control={<Switch defaultChecked
-                      checked={checked}
-                      onChange={handlesCountryChange}
-                    />} label="Country Boundary" />
-                    <FormControlLabel required control={<Switch />} label="Province Boundary" />
-                    <FormControlLabel control={<Switch />} label="District Boundary" />
-                  </FormGroup>
-
-                </div>
-                :
-
-                <div className="baselayers" style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
-                  <Card sx={{ display: 'flex', }}>
-
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151 }}
-                      image={mapbox}
-                      alt="Mapbox"
-                    />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography component="div" variant="h6">
-                          Mapbox Dark map
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div">
-                          MapBox World Dark Streets Map
-                        </Typography>
-                      </CardContent>
-
-
-
-                    </Box>
-                  </Card>
-
-                  <Card sx={{ display: 'flex' }}>
-
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151 }}
-                      image={mapbox}
-                      alt="Mapbox"
-                    />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography component="div" variant="h6">
-                          Mapbox Dark map
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div">
-                          MapBox World Dark Streets Map
-                        </Typography>
-                      </CardContent>
-
-
-
-                    </Box>
-                  </Card>
-
-                  <Card sx={{ display: 'flex' }}>
-
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151 }}
-                      image={mapbox}
-                      alt="Mapbox"
-                    />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography component="div" variant="h6">
-                          Mapbox Dark map
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div">
-                          MapBox World Dark Streets Map
-                        </Typography>
-                      </CardContent>
-
-
-
-                    </Box>
-                  </Card>
-
-                  <Card sx={{ display: 'flex' }}>
-
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151 }}
-                      image={mapbox}
-                      alt="Mapbox"
-                    />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography component="div" variant="h6">
-                          Mapbox Dark map
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div">
-                          MapBox World Dark Streets Map
-                        </Typography>
-                      </CardContent>
-
-
-
-                    </Box>
-                  </Card>
-
-                  <Card sx={{ display: 'flex' }}>
-
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151 }}
-                      image={mapbox}
-                      alt="Mapbox"
-                    />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography component="div" variant="h6">
-                          Mapbox Dark map
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div">
-                          MapBox World Dark Streets Map
-                        </Typography>
-                      </CardContent>
-
-
-
-                    </Box>
-                  </Card>
-                </div>
-
-            } */}
-
+         
 
 
             </Offcanvas.Body>
