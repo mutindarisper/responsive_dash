@@ -79,7 +79,7 @@ const useStyles = makeStyles({
   datePicker: {
     '& .MuiInputBase-root': {
       height: '2em', // Adjust the height as needed
-      // width: '10.5em',
+      width: '10.5em',
       overflowX: 'hidden',
       overflowY: 'hidden',
       fontSize: '1em',
@@ -219,7 +219,7 @@ const MapView = () => {
 
   const addWMSLayerToMap = () => {
     removeWMSLayerFromMap()
-    // setshowLegend(true)
+    setshowLegend(true)
 
 
     console.log(selectedYear)
@@ -342,9 +342,13 @@ const MapView = () => {
 
 
 
-          <Offcanvas show={show} backdrop={false} style={{ margin: '4.5em 8.4em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: '#f9f9f9',  }}>
-            <Offcanvas.Header  >
-              <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} />
+          <Offcanvas 
+          show={show} 
+          backdrop={false}
+          onHide={handleClose}
+           style={{ margin: '4.8em 8.4em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: '#f9f9f9',  }}>
+            <Offcanvas.Header closeButton  >
+              {/* <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} /> */}
               <Offcanvas.Title>
 
               </Offcanvas.Title>
@@ -354,15 +358,15 @@ const MapView = () => {
               <TabPanel value={tabvalue} index={0} >
               <Typography fontFamily="Poppins" marginBottom={'1em'} fontWeight={'bold'}  marginTop={'-2em'} fontSize={'1.5em'}>Forest Cover Change</Typography>
             
-              <Typography fontFamily="Poppins" fontWeight={'bold'} >Select date</Typography>
+              <Typography fontFamily="Poppins" fontWeight={'bold'} marginBottom={'1em'} >Select date</Typography>
 
-                <Stack direction="row" spacing={12}>
+                <Stack direction="row" spacing={12} >
                   <Typography fontFamily="Poppins" fontWeight={'bold'} >Start</Typography>
                   <Typography fontFamily="Poppins" fontWeight={'bold'} >End</Typography>
                 </Stack>
 
 
-                <Stack direction="row" spacing={2  }>
+                <Stack direction="row" spacing={2  }  style={{marginBottom:'2em'}}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker', 'DatePicker']}>
 
@@ -392,7 +396,7 @@ const MapView = () => {
                 </Stack>
 
 
-                <FormGroup>
+                <FormGroup  style={{marginBottom:'1em'}}>
                   <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Forest cover loss</Typography>}/>
                   <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Forest cover gain</Typography>} />
                   <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Net Forest Change</Typography>} />
@@ -403,28 +407,80 @@ const MapView = () => {
 
                 <List >
       
-    <Divider variant="middle" component="li" />
+    <Divider variant="middle" component="li" style={{marginBottom:'1em'}} />
     <Typography fontFamily="Poppins" style={{fontWeight:'bold', margin:'.5em'}}>Deforestation Alerts</Typography>
    
+    <FormGroup>
     <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Near realtime alerts</Typography>} />
     <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Areas to watch</Typography>} />
 
-
+</FormGroup>
    
-     <Divider variant="middle" component="li"  />
+     <Divider variant="middle" component="li"  style={{marginBottom:'1em'}} />
      <Typography fontFamily="Poppins" style={{fontWeight:'bold', margin:'.5em'}}>Fires</Typography>
+
+     <FormGroup>
      <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Fire alerts</Typography>} />
     <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Areas to watch</Typography>} />
     <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Global fire index</Typography>} />
     <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Tree cover loss due to fires</Typography>} />
-   
+   </FormGroup>
        
-    </List>
+                </List>
               
                
               </TabPanel>
               <TabPanel value={tabvalue} index={1}>
-                Item Two
+              <Typography fontFamily="Poppins" marginBottom={'1em'} fontWeight={'bold'}  marginTop={'-2em'} fontSize={'1.5em'}>Tree Cover Change</Typography>
+            
+            <Typography fontFamily="Poppins" fontWeight={'bold'} marginBottom={'1em'} >Select date</Typography>
+
+              <Stack direction="row" spacing={12} >
+                <Typography fontFamily="Poppins" fontWeight={'bold'} >Start</Typography>
+                <Typography fontFamily="Poppins" fontWeight={'bold'} >End</Typography>
+              </Stack>
+
+
+              <Stack direction="row" spacing={2  }  style={{marginBottom:'2em'}}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+                        <DatePicker
+                          
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                          format="YYYY-MM-DD"
+                          className={classes.datePicker}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+                        <DatePicker
+                          
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                          format="YYYY-MM-DD"
+                          className={classes.datePicker}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+
+              </Stack>
+
+
+              <FormGroup  style={{marginBottom:'1em'}}>
+                <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Tree cover loss</Typography>}/>
+                <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Tree cover gain</Typography>} />
+                <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Net Tree cover Change</Typography>} />
+               
+                
+              </FormGroup>
+
+
+            
               </TabPanel>
               <TabPanel value={tabvalue} index={2}>
                 Item Three
@@ -463,9 +519,13 @@ const MapView = () => {
         {
           showLegend &&
 
-          <Offcanvas show={showLegend} backdrop={false} style={{ margin: '4.5em 32.5em', height: '40vh', overflowY: 'auto', width: '15%', backgroundColor: '#fff', fontfamily: 'Poppins', }}>
-            <Offcanvas.Header  >
-              <ChevronLeftIcon onClick={handleCloseLegend} style={{ marginLeft: '10em', cursor: 'pointer' }} />
+          <Offcanvas 
+          show={showLegend}
+          onHide={handleCloseLegend}
+           backdrop={false} 
+           style={{ margin: '4.8em 34.8em', height: '80vh', overflowY: 'auto', width: '20%', backgroundColor: '#fff', fontfamily: 'Poppins', }}>
+            <Offcanvas.Header closeButton  >
+              {/* <ChevronLeftIcon onClick={handleCloseLegend} style={{ marginLeft: '13em', cursor: 'pointer' }} /> */}
               <Offcanvas.Title>
 
               </Offcanvas.Title>
