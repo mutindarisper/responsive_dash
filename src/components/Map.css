@@ -9,3 +9,18 @@ body{
 .menu_icon{
     color:#fff
 }
+
+
+.colored-div {
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    margin-right: 10px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 2em;
+  }
+  .red { background-color: red; }
+  .green { background-color: green; }
+  .blue { background-color: blue; }
+  .yellow { background-color: yellow; }

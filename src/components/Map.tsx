@@ -19,7 +19,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CircularProgress, Tab, Tabs, Box, Stack, FormGroup, MenuItem, FormControl, FormControlLabel, Switch, Divider, List, ListItem } from '@mui/material';
-import { Map, Forest,  WaterDrop, Pets } from '@mui/icons-material';
+import { Map, Forest,  WaterDrop, Pets, Park } from '@mui/icons-material';
 
 
 import './Map.css'
@@ -330,7 +330,7 @@ const MapView = () => {
               style={{ fontWeight: '700' }}
             >
               <Tab icon={<Forest  onClick={addWMSLayerToMap} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Forest Cover</Typography>} {...a11yProps(4)} />
-              <Tab icon={<Forest  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Tree Cover</Typography>} {...a11yProps(1)} />
+              <Tab icon={<Park  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Tree Cover</Typography>} {...a11yProps(1)} />
               <Tab icon={<Map  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Land Use</Typography>} {...a11yProps(1)} />
               <Tab icon={<Pets  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Biodiversity</Typography>} {...a11yProps(3)} />
               <Tab icon={<WaterDrop  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Soil & Water</Typography>} {...a11yProps(4)} />
@@ -523,7 +523,7 @@ const MapView = () => {
           show={showLegend}
           onHide={handleCloseLegend}
            backdrop={false} 
-           style={{ margin: '4.8em 34.8em', height: '80vh', overflowY: 'auto', width: '20%', backgroundColor: '#fff', fontfamily: 'Poppins', }}>
+           style={{ margin: '4.8em 34.8em', height: '80vh', overflowY: 'auto', width: '22%', backgroundColor: '#fff', fontfamily: 'Poppins', }}>
             <Offcanvas.Header closeButton  >
               {/* <ChevronLeftIcon onClick={handleCloseLegend} style={{ marginLeft: '13em', cursor: 'pointer' }} /> */}
               <Offcanvas.Title>
