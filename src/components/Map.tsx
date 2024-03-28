@@ -18,7 +18,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { CircularProgress, Tab, Tabs, Box, Stack, FormGroup, MenuItem, FormControl, FormControlLabel, Switch, Divider, List, ListItem } from '@mui/material';
+import { CircularProgress, Tab, Tabs, Box, Stack, FormGroup,Button, MenuItem, FormControl, FormControlLabel, Switch, Divider, List, ListItem } from '@mui/material';
 import { Map, Forest,  WaterDrop, Pets, Park } from '@mui/icons-material';
 
 
@@ -32,6 +32,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store'
 import TreeCoverLegend from './TreeCoverLegend';
 import LandCoverLegend from './LandCoverLegend';
+import BiodiversityLegend from './BiodiversityLegend';
 
 // const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
@@ -62,12 +63,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(index: number) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
-  };
-}
+
 
 let baseurl = "http://66.42.65.87";
 
@@ -554,7 +550,73 @@ const MapView = () => {
 
               </TabPanel>
               <TabPanel value={tabvalue} index={3}>
-                Item Four
+              <Typography fontFamily="Poppins" marginBottom={'1em'} fontWeight={'bold'}  marginTop={'-2em'} fontSize={'1.5em'}>Biodiversity</Typography>
+            
+            <Typography fontFamily="Poppins" fontWeight={'bold'} marginBottom={'1em'} >Select date</Typography>
+
+              <Stack direction="row" spacing={12} >
+                <Typography fontFamily="Poppins" fontWeight={'bold'} >Start</Typography>
+                <Typography fontFamily="Poppins" fontWeight={'bold'} >End</Typography>
+              </Stack>
+
+
+              <Stack direction="row" spacing={2  }  style={{marginBottom:'2em'}}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+                        <DatePicker
+                          
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                          format="YYYY-MM-DD"
+                          className={classes.datePicker}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+                        <DatePicker
+                          
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                          format="YYYY-MM-DD"
+                          className={classes.datePicker}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+
+              </Stack>
+
+              <FormGroup style={{marginBottom:'1em'}}>
+                  <FormControlLabel control={<Switch  onChange={addWMSLayerToMap} />} label={ <Typography fontFamily="Poppins">Key Biodiversity Areas</Typography>}/>
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Biodiversity Hotspots</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Biodiversity loss</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Biodiversity gain</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Biodiversity intactness</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Biodiversity significance</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Alliance for Zero extinction sites</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Endemic Bird Areas</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Tiger conservation landscape</Typography>} />
+                  
+                </FormGroup>
+
+                <Button variant="contained" color="success" className='mb-4'
+                            style={{
+                                textTransform: 'none',
+                                fontFamily: 'Poppins',
+                                fontWeight: 700,
+                                fontSize: '1em',
+                                height: '3em',
+                                //    whiteSpace: 'nowrap',
+                                padding: '1em',
+                            }}>
+                            Request Analysis
+                        </Button>
+                        <Typography fontFamily="Poppins" >Get results via email once ready and download report</Typography>
+                      
+
               </TabPanel>
               <TabPanel value={tabvalue} index={4}>
                 Item Five
@@ -602,7 +664,8 @@ const MapView = () => {
               {
                 tabvalue === 0 ?  <Legend onOpacityChange={handleOpacityChange} />
                 : tabvalue === 1 ? <TreeCoverLegend  />
-                : tabvalue === 2 ? <LandCoverLegend  /> :''
+                : tabvalue === 2 ? <LandCoverLegend  /> 
+                : tabvalue === 3 ? <BiodiversityLegend  /> : ''
                 
               }
              
