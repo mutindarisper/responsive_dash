@@ -30,6 +30,8 @@ import mapbox from '../assets/images/basemap.png';
 import Legend from './Legend';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store'
+import TreeCoverLegend from './TreeCoverLegend';
+import LandCoverLegend from './LandCoverLegend';
 
 // const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
@@ -153,6 +155,7 @@ const MapView = () => {
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
+    console.log(newValue)
   };
 
 
@@ -329,11 +332,11 @@ const MapView = () => {
 
               style={{ fontWeight: '700' }}
             >
-              <Tab icon={<Forest  onClick={addWMSLayerToMap} />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Forest Cover</Typography>} {...a11yProps(4)} />
-              <Tab icon={<Park  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Tree Cover</Typography>} {...a11yProps(1)} />
-              <Tab icon={<Map  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Land Use</Typography>} {...a11yProps(1)} />
-              <Tab icon={<Pets  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Biodiversity</Typography>} {...a11yProps(3)} />
-              <Tab icon={<WaterDrop  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Soil & Water</Typography>} {...a11yProps(4)} />
+              <Tab icon={<Forest />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Forest Cover</Typography>} value={0} />
+              <Tab icon={<Park  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Tree Cover</Typography>} value={1} />
+              <Tab icon={<Map  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Land Use</Typography>} value={2} />
+              <Tab icon={<Pets  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'}  color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Biodiversity</Typography>} value={3} />
+              <Tab icon={<WaterDrop  />} label={<Typography fontWeight="bold" fontFamily={'Poppins'} color={storeMode === 'light' ? '#5b5e57' : '#d9dcd6'}  className={classes.tabLabel}>Soil & Water</Typography>} value={4}  />
 
 
             </Tabs>
@@ -396,11 +399,11 @@ const MapView = () => {
                 </Stack>
 
 
-                <FormGroup  style={{marginBottom:'1em'}}>
-                  <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Forest cover loss</Typography>}/>
-                  <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Forest cover gain</Typography>} />
-                  <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Net Forest Change</Typography>} />
-                  <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Forest loss by dominant driver</Typography>} />
+                <FormGroup style={{marginBottom:'1em'}}>
+                  <FormControlLabel control={<Switch  color='warning' onChange={addWMSLayerToMap} />} label={ <Typography fontFamily="Poppins">Forest cover loss</Typography>}/>
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Forest cover gain</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Net Forest Change</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Forest loss by dominant driver</Typography>} />
                   
                 </FormGroup>
 
@@ -411,25 +414,28 @@ const MapView = () => {
     <Typography fontFamily="Poppins" style={{fontWeight:'bold', margin:'.5em'}}>Deforestation Alerts</Typography>
    
     <FormGroup>
-    <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Near realtime alerts</Typography>} />
-    <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Areas to watch</Typography>} />
+    <FormControlLabel control={<Switch  color='warning' />} label={ <Typography fontFamily="Poppins">Near realtime alerts</Typography>} />
+    <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Areas to watch</Typography>} />
 
-</FormGroup>
+    </FormGroup>
    
      <Divider variant="middle" component="li"  style={{marginBottom:'1em'}} />
      <Typography fontFamily="Poppins" style={{fontWeight:'bold', margin:'.5em'}}>Fires</Typography>
 
      <FormGroup>
-     <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Fire alerts</Typography>} />
-    <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Areas to watch</Typography>} />
-    <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Global fire index</Typography>} />
-    <FormControlLabel control={<Switch defaultChecked />} label={<Typography fontFamily="Poppins">Tree cover loss due to fires</Typography>} />
+     <FormControlLabel control={<Switch  color='warning'  />} label={<Typography fontFamily="Poppins">Fire alerts</Typography>} />
+    <FormControlLabel control={<Switch  />} label={<Typography fontFamily="Poppins">Areas to watch</Typography>} />
+    <FormControlLabel control={<Switch  color='warning' />} label={<Typography fontFamily="Poppins">Global fire index</Typography>} />
+    <FormControlLabel control={<Switch  />} label={<Typography fontFamily="Poppins">Tree cover loss due to fires</Typography>} />
    </FormGroup>
        
                 </List>
               
                
               </TabPanel>
+
+
+
               <TabPanel value={tabvalue} index={1}>
               <Typography fontFamily="Poppins" marginBottom={'1em'} fontWeight={'bold'}  marginTop={'-2em'} fontSize={'1.5em'}>Tree Cover Change</Typography>
             
@@ -472,18 +478,80 @@ const MapView = () => {
 
 
               <FormGroup  style={{marginBottom:'1em'}}>
-                <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Tree cover loss</Typography>}/>
-                <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Tree cover gain</Typography>} />
-                <FormControlLabel control={<Switch defaultChecked />} label={ <Typography fontFamily="Poppins">Net Tree cover Change</Typography>} />
-               
-                
+                <FormControlLabel control={<Switch  color='warning' />} label={ <Typography fontFamily="Poppins">Tree cover loss</Typography>}/>
+                <p>From: 2001 
+                    To: 2023
+                    Coverage: Global
+                    Source: Hansen</p>
+                <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Tree cover gain</Typography>} />
+                <p>From: 2001 
+                    To: 2023
+                    Coverage: Global
+                    Source: Hansen</p>
+                <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Net Tree cover Change</Typography>} />
+                <p>From: 2001 
+                    To: 2023
+                    Coverage: Global
+                    Source: Hansen</p>
               </FormGroup>
 
-
-            
               </TabPanel>
               <TabPanel value={tabvalue} index={2}>
-                Item Three
+                
+              <Typography fontFamily="Poppins" marginBottom={'1em'} fontWeight={'bold'}  marginTop={'-2em'} fontSize={'1.5em'}>Land Cover</Typography>
+            
+            <Typography fontFamily="Poppins" fontWeight={'bold'} marginBottom={'1em'} >Select date</Typography>
+
+              <Stack direction="row" spacing={12} >
+                <Typography fontFamily="Poppins" fontWeight={'bold'} >Start</Typography>
+                <Typography fontFamily="Poppins" fontWeight={'bold'} >End</Typography>
+              </Stack>
+
+
+              <Stack direction="row" spacing={2  }  style={{marginBottom:'2em'}}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+                        <DatePicker
+                          
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                          format="YYYY-MM-DD"
+                          className={classes.datePicker}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+                        <DatePicker
+                          
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                          format="YYYY-MM-DD"
+                          className={classes.datePicker}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+
+              </Stack>
+
+              <FormGroup style={{marginBottom:'1em'}}>
+                  <FormControlLabel control={<Switch  onChange={addWMSLayerToMap} />} label={ <Typography fontFamily="Poppins">Forests</Typography>}/>
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Cropland</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Grassland</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Built-up</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Shrubland</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Wetland</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Bareland</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Water</Typography>} />
+                  
+                </FormGroup>
+
+
+
+
               </TabPanel>
               <TabPanel value={tabvalue} index={3}>
                 Item Four
@@ -523,7 +591,7 @@ const MapView = () => {
           show={showLegend}
           onHide={handleCloseLegend}
            backdrop={false} 
-           style={{ margin: '4.8em 34.8em', height: '80vh', overflowY: 'auto', width: '22%', backgroundColor: '#fff', fontfamily: 'Poppins', }}>
+           style={{ margin: '4.8em 34.8em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: '#fff', fontfamily: 'Poppins', }}>
             <Offcanvas.Header closeButton  >
               {/* <ChevronLeftIcon onClick={handleCloseLegend} style={{ marginLeft: '13em', cursor: 'pointer' }} /> */}
               <Offcanvas.Title>
@@ -531,7 +599,13 @@ const MapView = () => {
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <Legend onOpacityChange={handleOpacityChange} />
+              {
+                tabvalue === 0 ?  <Legend onOpacityChange={handleOpacityChange} />
+                : tabvalue === 1 ? <TreeCoverLegend  />
+                : tabvalue === 2 ? <LandCoverLegend  /> :''
+                
+              }
+             
             </Offcanvas.Body>
           </Offcanvas>
 

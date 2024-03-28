@@ -2,19 +2,19 @@ import 'chart.js/auto';
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 
-type BarChartProps =  {
+type GainBarChartProps =  {
   data: number[];
   labels: string[];
 }
 
-const BarChart: React.FC<BarChartProps> = ({ data, labels }) => {
+const GainBarChart: React.FC<GainBarChartProps> = ({ data, labels }) => {
   const chartData = {
     labels: labels,
     datasets: [
       {
         // label: 'Bar Chart',
         data: data,
-        backgroundColor: '#DA5D1F',
+        backgroundColor: '#2F8233',
         barPercentage: 0.5,
         // borderColor: 'rgba(75,192,192,1)',
         // borderWidth: 1,
@@ -42,4 +42,4 @@ const BarChart: React.FC<BarChartProps> = ({ data, labels }) => {
   );
 };
 
-export default BarChart;
+export default GainBarChart;

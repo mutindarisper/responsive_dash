@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Tab, Tabs, Box, Slider, Divider, List, Button, Stack, Typography } from '@mui/material'
+import { Tab, Box, Slider, Divider, List, Button, Stack, Typography } from '@mui/material'
 import { Layers, BarChart, PlayCircleFilled, Polyline, FolderZip } from '@mui/icons-material';
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import './Map.css'
@@ -7,15 +7,7 @@ import { styled } from '@mui/styles';
 import BarChart1 from './charts/BarChart';
 import DoughnutChart from './charts/Doughnut';
 import GainBarChart from './charts/GainBarChart';
-type Props = {
-    onOpacityChange: (event: Event, newValue: number | number[]) => void;
-}
 
-type CategoryColorMap = {
-    [key: string]: string;
-}
-
-const colors = ['red', 'green', 'blue', 'yellow'];
 const marks = [
     {
         value: 0,
@@ -49,22 +41,14 @@ const VisuallyHiddenInput = styled('input')({
     whiteSpace: 'nowrap',
     width: 1,
 });
-const Legend = ({ onOpacityChange }: Props) => {
+const TreeCoverLegend = () => {
     const [value, setValue] = useState('1');
-    const [opacity, setOpacity] = useState<number>(100);
+    
 
     const data = [5, 4, 3 ];
     const labels = ['Loss', 'Gain', 'Stable'];
 
-    const landuse = ['Forestry', 'Agriculture', 'Commodity driven deforestation', 'Urbanization', 'Wildfire']
-    const categories: string[] = ['Forestry', 'Agriculture', 'Commodity driven deforestation', 'Urbanization', 'Wildfire'];
-    const categoryColors: CategoryColorMap = {
-        Forestry: '#417843',
-        Agriculture: '#F4B1E6',
-        'Commodity driven deforestation': '#B1D396',
-        Urbanization: '#E92525',
-        Wildfire: '#DA5D1F'
-    };
+ 
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
@@ -82,16 +66,14 @@ const Legend = ({ onOpacityChange }: Props) => {
                     </TabList>
                 </Box>
                 <TabPanel value="1" style={{ fontFamily: 'Poppins', fontWeight: 700 }}>
-                    <p className="opacity" style={{ fontSize: '1em' }} >Forest cover gain from 2001 - 2023</p>
+                    <p className="opacity" style={{ fontSize: '1em' }} >Tree cover gain from 2001 - 2023</p>
                     <span className="legend_flex d-flex gap-2">
                         <div style={{ backgroundColor: '#417843', borderRadius: '50%', width: '1em', height: '1em' }}></div>
-                        <p>Forest cover gain</p>
+                        <p>Tree cover gain</p>
 
                     </span>
-
                     <p>Timeseries</p>
                     <div className="timeseries legend_flex d-flex gap-4">
-                       
                         <PlayCircleFilled />
                         <Box sx={{ width: 300 }}>
                             <Slider
@@ -109,10 +91,10 @@ const Legend = ({ onOpacityChange }: Props) => {
 
                         <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
 
-                        <p className="opacity" style={{ fontSize: '1em' }} >Forest cover loss from 2001 - 2023</p>
+                        <p className="opacity" style={{ fontSize: '1em' }} >Tree cover loss from 2001 - 2023</p>
                         <span className="legend_flex d-flex gap-2">
                             <div style={{ backgroundColor: '#FAA04D', borderRadius: '50%', width: '1em', height: '1em' }}></div>
-                            <p>Forest cover loss</p>
+                            <p>Tree cover loss</p>
 
                         </span>
                         <p>Timeseries</p>
@@ -132,22 +114,7 @@ const Legend = ({ onOpacityChange }: Props) => {
 
                         <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
 
-                        {
-                            landuse.map((item) => (
-                                <div className="d-flex  gap-2 ">
-                                    <div style={{
-                                        backgroundColor: item === 'Forestry' ?
-                                            '#417843' : item === 'Agriculture' ? '#F4B1E6' :
-                                                item === 'Commodity driven deforestation' ? '#B1D396' :
-                                                    item === 'Urbanization' ? '#E92525' :
-                                                        '#DA5D1F'
-                                        ,
-                                        borderRadius: '50%', width: '1.5em', height: '1.5em'
-                                    }}></div>
-                                    <p>{item}</p>
-                                </div>
-                            ))
-                        }
+                       <div className="netchange_legend">Net Tree cover change 2001 - 2023</div>
 
 
                     </List>
@@ -190,7 +157,7 @@ const Legend = ({ onOpacityChange }: Props) => {
 
                     </Stack>
 
-                    <p style={{fontWeight:700}}>Forest cover loss in AOI</p>
+                    <p style={{fontWeight:700}}>Tree cover loss in AOI</p>
                     <p>From 2000 to 2023, AOI lost
                         20.6 kha of forest cover equal to 0.4% is its total extent.</p>
 
@@ -198,14 +165,14 @@ const Legend = ({ onOpacityChange }: Props) => {
 
                     <List >
                         <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
-                        <p style={{fontWeight:700}}>Forest cover gain in AOI</p>
+                        <p style={{fontWeight:700}}>Tree cover gain in AOI</p>
                         <p>From 2000 to 2023, AOI gained
                             20.6 kha of forest cover equal to 0.4% is its total extent.</p>
 
                         <GainBarChart data={data} labels={labels}  />
 
                         <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
-                        <p style={{fontWeight:700}}>Net Forest Change</p>
+                        <p style={{fontWeight:700}}>Net Tree Cover Change</p>
                        
                         <DoughnutChart data={data} labels={labels}  />
 
@@ -218,4 +185,4 @@ const Legend = ({ onOpacityChange }: Props) => {
     )
 }
 
-export default Legend
+export default TreeCoverLegend

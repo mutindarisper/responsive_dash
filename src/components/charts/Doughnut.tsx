@@ -40,7 +40,7 @@ type BarChartProps =  {
         },
     }
   return (
-    <Doughnut data={chartData} options={chartOptions} />
+    <Doughnut data={chartData} options={chartOptions} height={400} width={400} />
   )
 }
 
