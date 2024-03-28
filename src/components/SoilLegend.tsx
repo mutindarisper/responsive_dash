@@ -16,13 +16,14 @@ const VisuallyHiddenInput = styled('input')({
     whiteSpace: 'nowrap',
     width: 1,
 });
-const BiodiversityLegend = () => {
+const SoilLegend = () => {
     const [value, setValue] = useState('1');
-  
 
-  
-    const categories: string[] = ['Natural resource', 'Protected landscape', 'Game reserve','Game park'];
-  
+
+
+    const categories: string[] = ['Sandy', 'Loamy Soils', 'Clay soils', 'Silt'];
+    const water_categories: string[] = ['Dissolved oxygen', 'Nutrients', 'Pollutants'];
+
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
@@ -38,22 +39,41 @@ const BiodiversityLegend = () => {
                         {/* <Tab icon={<BarChart />} label="Analysis3" value="3" style={{ backgroundColor: value === '2' ? '#086a53' : 'inherit', color: value === '3' ? 'white' : 'inherit' }} style={{ backgroundColor: value === '1' ? '#ddeec6' : 'inherit', color: value === '1' ? '#5b5e57' : 'inherit' }} style={{ backgroundColor: value === '2' ? '#ddeec6' : 'inherit', color: value === '2' ? '#5b5e57' : 'inherit' }}   /> */}
                     </TabList>
                 </Box>
-              
+
                 <TabPanel value="1" style={{ fontFamily: 'Poppins', fontWeight: 700 }}>
-                <p>Key Biodiversity areas</p>
-                {
-                            categories.map((item) => (
-                                <div className="d-flex gap-2 ">
-                                    <div style={{
-                                        backgroundColor: item === 'Natural resource' ?
-                                            '#417843' : item === 'Protected landscape' ? '#F4B1E6' :
-                                                item === 'Game reserve' ? '#B1D396': '#C7C7C7' ,
-                                        borderRadius: '50%', width: '1.5em', height: '1.5em'
-                                    }}></div>
-                                    <p>{item}</p>
-                                </div>
-                            ))
-                        }
+                    <p>Soil Types</p>
+                    {
+                        categories.map((item) => (
+                            <div className="d-flex gap-2 ">
+                                <div style={{
+                                    backgroundColor: item === 'Sandy' ?
+                                        '#417843' : item === 'Loamy Soils' ? '#F4B1E6' :
+                                            item === 'Clay soils' ? '#B1D396' : '#C7C7C7',
+                                    borderRadius: '50%', width: '1.5em', height: '1.5em'
+                                }}></div>
+                                <p>{item}</p>
+                            </div>
+                        ))
+                    }
+                    <List >
+                        <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
+                        <p>Water Quality</p>
+                        {
+                        water_categories.map((item) => (
+                            <div className="d-flex gap-2 ">
+                                <div style={{
+                                    backgroundColor: item === 'Dissolved oxygen' ?
+                                        '#417843' : item === 'Nutrients' ? '#F4B1E6' : '#C7C7C7',
+                                    borderRadius: '50%', width: '1.5em', height: '1.5em'
+                                }}></div>
+                                <p>{item}</p>
+                            </div>
+                        ))
+                    }
+
+                        </List>
+
+                    
 
 
 
@@ -94,28 +114,28 @@ const BiodiversityLegend = () => {
 
                     </Stack>
 
-                  
+
 
                     <List >
                         <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
-                        <p style={{fontWeight:700}}>Biodiversity gain  for AOI</p>
-                        <p>Wetland restoration,  in AOI  lead to a 20% increase in biodiversity. </p>
+                        <p style={{ fontWeight: 700 }}>Soil degradation  for AOI</p>
+                        <p>Soil erosion,  in AOI  lead to a 20% soil loss. </p>
 
-                       
+
 
                         <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
-                        <p style={{fontWeight:700}}>Biodiversity loss  for AOI</p>
+                        <p style={{ fontWeight: 700 }}>Biodiversity loss  for AOI</p>
                         <p>Wildfires,  in AOI  lead to a 40% decrease in biodiversity.</p>
-                       
+
 
                         <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
-                        <p style={{fontWeight:700}}>Biodiversity Hotspots  for AOI</p>
-                        <p>The region is made up of different habitats, including Somali Acacia-Commiphora bushlands and thickets, and Djibouti xeric shrublands</p>
-                       
+                        <p style={{ fontWeight: 700 }}>Water quality  for AOI</p>
+                        <p>Growth of algal blooms  in AOI  lead to a 40% decrease in water quality.</p>
+
                         <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
-                        <p style={{fontWeight:700}}>Alerts</p>
-                <Button variant="contained" color="success" className='mb-4'
-                startIcon={<EmailOutlined style={{ height: '1.5em', width: '1.5em' }} />}
+                        <p style={{ fontWeight: 700 }}>Alerts</p>
+                        <Button variant="contained" color="success" className='mb-4'
+                            startIcon={<EmailOutlined style={{ height: '1.5em', width: '1.5em' }} />}
                             style={{
                                 textTransform: 'none',
                                 fontFamily: 'Poppins',
@@ -137,4 +157,4 @@ const BiodiversityLegend = () => {
     )
 }
 
-export default BiodiversityLegend
+export default SoilLegend

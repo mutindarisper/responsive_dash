@@ -33,6 +33,7 @@ import { RootState, AppDispatch } from '../store/store'
 import TreeCoverLegend from './TreeCoverLegend';
 import LandCoverLegend from './LandCoverLegend';
 import BiodiversityLegend from './BiodiversityLegend';
+import SoilLegend from './SoilLegend';
 
 // const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
@@ -549,6 +550,7 @@ const MapView = () => {
 
 
               </TabPanel>
+
               <TabPanel value={tabvalue} index={3}>
               <Typography fontFamily="Poppins" marginBottom={'1em'} fontWeight={'bold'}  marginTop={'-2em'} fontSize={'1.5em'}>Biodiversity</Typography>
             
@@ -619,7 +621,68 @@ const MapView = () => {
 
               </TabPanel>
               <TabPanel value={tabvalue} index={4}>
-                Item Five
+              <Typography fontFamily="Poppins" marginBottom={'1em'} fontWeight={'bold'}  marginTop={'-2em'} fontSize={'1.5em'}>Soil & Water</Typography>
+            
+            <Typography fontFamily="Poppins" fontWeight={'bold'} marginBottom={'1em'} >Select date</Typography>
+
+              <Stack direction="row" spacing={12} >
+                <Typography fontFamily="Poppins" fontWeight={'bold'} >Start</Typography>
+                <Typography fontFamily="Poppins" fontWeight={'bold'} >End</Typography>
+              </Stack>
+
+
+              <Stack direction="row" spacing={2  }  style={{marginBottom:'2em'}}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+                        <DatePicker
+                          
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                          format="YYYY-MM-DD"
+                          className={classes.datePicker}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+                        <DatePicker
+                          
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                          format="YYYY-MM-DD"
+                          className={classes.datePicker}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+
+              </Stack>
+
+              <FormGroup style={{marginBottom:'1em'}}>
+                  <FormControlLabel control={<Switch  onChange={addWMSLayerToMap} />} label={ <Typography fontFamily="Poppins">Soil Types</Typography>}/>
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Soil Moisture levels</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Water quality</Typography>} />
+                  <FormControlLabel control={<Switch  />} label={ <Typography fontFamily="Poppins">Land Use </Typography>} />
+        
+                  
+                </FormGroup>
+
+                <Button variant="contained" color="success" className='mb-4'
+                            style={{
+                                textTransform: 'none',
+                                fontFamily: 'Poppins',
+                                fontWeight: 700,
+                                fontSize: '1em',
+                                height: '3em',
+                                //    whiteSpace: 'nowrap',
+                                padding: '1em',
+                            }}>
+                            Hydrologic Analysis
+                        </Button>
+                        <Typography fontFamily="Poppins" >Get results via email once ready and download report</Typography>
+                      
               </TabPanel>
               <TabPanel value={tabvalue} index={5}>
                 Item Six
@@ -665,7 +728,9 @@ const MapView = () => {
                 tabvalue === 0 ?  <Legend onOpacityChange={handleOpacityChange} />
                 : tabvalue === 1 ? <TreeCoverLegend  />
                 : tabvalue === 2 ? <LandCoverLegend  /> 
-                : tabvalue === 3 ? <BiodiversityLegend  /> : ''
+                : tabvalue === 3 ? <BiodiversityLegend  /> 
+                : tabvalue === 4 ? <SoilLegend  /> :
+                ''
                 
               }
              
