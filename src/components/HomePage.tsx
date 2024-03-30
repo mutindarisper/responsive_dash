@@ -1,12 +1,13 @@
 import FloodMaps from "./FloodMaps"
 import Header from "./Header"
+import NavBarWrapper from "./NavBarWrapper"
 import Navigationbar from "./Navigationbar"
 
 
 const HomePage = () => {
   return (
     <>
-    <Navigationbar />
+    <NavBarWrapper onClick={() => ''}  />
     <Header />
     <FloodMaps />
     

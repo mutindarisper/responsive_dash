@@ -1,4 +1,5 @@
-import * as React from 'react';
+
+import  React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav} from "react-bootstrap";
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
@@ -9,6 +10,7 @@ import {  useNavigate, useLocation } from 'react-router-dom';
 import { changeLink, changeMode } from '../store/map/CounterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store'
+
 // import './Navbar.css'
 
 import { makeStyles } from '@mui/styles';
@@ -45,7 +47,8 @@ const theme = createTheme({
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
-  const Navigationbar = () => {
+   const NavBarWrapper: React.FC<MyNavbarProps> = ({  onClick  }) => {
+    
   const theme = useTheme();
   const storeLink = useSelector((state: RootState) => state.link);
   const dispatch: AppDispatch = useDispatch();
@@ -81,7 +84,7 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
   };
   const handleClick = ( linkValue:string) => {
     console.log('Clicked Link Value:', linkValue);
-    // onClick(linkValue);
+    onClick(linkValue);
     link.current = linkValue;
     dispatch(changeLink(linkValue));
     
@@ -90,6 +93,9 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
    
     // You can perform any action you want with the clicked link value
   };
+
+ 
+  
 
 
   return (
@@ -133,6 +139,8 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
 
+         
+
 
 
         </Nav>
@@ -141,63 +149,4 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
   );
 }
 
-
-
-
-const tabStyle = (isActive:any) => ({
-  borderBottom: isActive ? '2px solid green' : 'transparent',
-});
-// export default Navigationbar
-
-export default function ToggleColorMode(){
-  const storeMode = useSelector((state: RootState) => state.mode);
-  const dispatch: AppDispatch = useDispatch();
-  const [mode, setMode] = React.useState<'light' | 'dark'>('light');
-  const colorMode = React.useMemo(
-    () => ({
-      toggleColorMode: () => {
-        // console.log(mode)
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-
-
-
-      },
-
-    }),
-    [],
-  );
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          primary: {
-            main: '#4caf50',
-            // Change the primary color to green
-
-
-          },
-          mode,
-        },
-      }),
-
-
-    [mode],
-  );
-
-  const showMode = () => {
-    // console.log(theme.palette.mode)
-    dispatch(changeMode(theme.palette.mode));
-
-  }
-  showMode()
-
-
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <Navigationbar />
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
+export default NavBarWrapper

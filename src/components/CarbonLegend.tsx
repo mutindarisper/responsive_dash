@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Tab, Box, Divider, List, Button, Stack, Typography } from '@mui/material'
-import { Layers, BarChart, Polyline, FolderZip, EmailOutlined } from '@mui/icons-material';
+import { Layers, BarChart, Polyline, FolderZip } from '@mui/icons-material';
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import './Map.css'
 import { styled } from '@mui/styles';
+
+import GainBarChart from './charts/GainBarChart';
+import BarChart1 from './charts/BarChart';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -16,13 +19,15 @@ const VisuallyHiddenInput = styled('input')({
     whiteSpace: 'nowrap',
     width: 1,
 });
-const BiodiversityLegend = () => {
+const CarbonLegend = () => {
     const [value, setValue] = useState('1');
-  
 
-  
-    const categories: string[] = ['Natural resource', 'Protected landscape', 'Game reserve','Game park'];
-  
+    const data = [5, 4, 3];
+    const labels = ['Loss', 'Gain', 'Stable'];
+
+
+    const categories: string[] = ['Carbon stock gain ', 'Carbon stock loss'];
+
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
@@ -38,22 +43,40 @@ const BiodiversityLegend = () => {
                         {/* <Tab icon={<BarChart />} label="Analysis3" value="3" style={{ backgroundColor: value === '2' ? '#086a53' : 'inherit', color: value === '3' ? 'white' : 'inherit' }} style={{ backgroundColor: value === '1' ? '#ddeec6' : 'inherit', color: value === '1' ? '#5b5e57' : 'inherit' }} style={{ backgroundColor: value === '2' ? '#ddeec6' : 'inherit', color: value === '2' ? '#5b5e57' : 'inherit' }}   /> */}
                     </TabList>
                 </Box>
-              
                 <TabPanel value="1" style={{ fontFamily: 'Poppins', fontWeight: 700 }}>
-                <p>Key Biodiversity areas</p>
-                {
-                            categories.map((item) => (
-                                <div className="d-flex gap-2 ">
-                                    <div style={{
-                                        backgroundColor: item === 'Natural resource' ?
-                                            '#417843' : item === 'Protected landscape' ? '#F4B1E6' :
-                                                item === 'Game reserve' ? '#B1D396': '#C7C7C7' ,
-                                        borderRadius: '50%', width: '1.5em', height: '1.5em'
-                                    }}></div>
-                                    <p>{item}</p>
-                                </div>
-                            ))
-                        }
+                    <p>Carbon stock gain from 2001 - 2023</p>
+
+
+                    <List >
+                        <div className="d-flex gap-2 ">
+                            <div style={{
+                                backgroundColor:
+                                    '#417843'
+                                ,
+                                borderRadius: '50%', width: '1.5em', height: '1.5em'
+                            }}></div>
+                            <p style={{ fontWeight: 700 }}>Carbon stock gain</p>
+                        </div>
+
+                        <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
+                        <div className="d-flex gap-2 ">
+                            <div style={{
+                                backgroundColor:
+                                    '#FAA04D'
+                                ,
+                                borderRadius: '50%', width: '1.5em', height: '1.5em'
+                            }}></div>
+                            <p style={{ fontWeight: 700 }}>Carbon stock loss</p>
+                        </div>
+
+
+
+                    </List>
+
+
+
+
+
 
 
 
@@ -94,28 +117,27 @@ const BiodiversityLegend = () => {
 
                     </Stack>
 
-                  
+
 
                     <List >
                         <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
-                        <p style={{fontWeight:700}}>Biodiversity gain  for AOI</p>
-                        <p>Wetland restoration,  in AOI  lead to a 20% increase in biodiversity. </p>
+                        <p style={{ fontWeight: 700 }}>Carbon stock loss  in AOI</p>
+                        <p>From 2000 to 2023, AOI lost
+                            20.6 Mt of carbon due to deforestation </p>
 
-                       
-
-                        <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
-                        <p style={{fontWeight:700}}>Biodiversity loss  for AOI</p>
-                        <p>Wildfires,  in AOI  lead to a 40% decrease in biodiversity.</p>
-                       
+                        <GainBarChart data={data} labels={labels} />
 
                         <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
-                        <p style={{fontWeight:700}}>Biodiversity Hotspots  for AOI</p>
-                        <p>The region is made up of different habitats, including Somali Acacia-Commiphora bushlands and thickets, and Djibouti xeric shrublands</p>
-                       
-                        <Divider variant="middle" component="li" style={{ marginBottom: '1em' }} />
-                        <p style={{fontWeight:700}}>Alerts</p>
-                <Button variant="contained" color="success" className='mb-4'
-                startIcon={<EmailOutlined style={{ height: '1.5em', width: '1.5em' }} />}
+                        <p style={{ fontWeight: 700 }}>Carbon stock gain  in AOI</p>
+                        <p>From 2000 to 2020, AOI gained
+                            10.6 Mt of carbon due to mangrove regeneration</p>
+
+                        <BarChart1 data={data} labels={labels} />
+
+                    </List>
+
+                    <Button variant="contained" color="success" className='mb-4'
+              
                             style={{
                                 textTransform: 'none',
                                 fontFamily: 'Poppins',
@@ -125,10 +147,9 @@ const BiodiversityLegend = () => {
                                 //    whiteSpace: 'nowrap',
                                 padding: '1em',
                             }}>
-                            Email Results
+                            Request analysis
                         </Button>
-
-                    </List>
+                        <p>Get results via email once ready and download report</p>
 
                 </TabPanel>
 
@@ -137,4 +158,4 @@ const BiodiversityLegend = () => {
     )
 }
 
-export default BiodiversityLegend
+export default CarbonLegend
