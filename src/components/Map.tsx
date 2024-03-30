@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navigationbar  from './Navigationbar';
+import Navigationbar from './Navigationbar';
 
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { makeStyles } from '@mui/styles';
@@ -33,6 +33,7 @@ import SoilLegend from './SoilLegend';
 import NavBarWrapper from './NavBarWrapper';
 import CarbonLegend from './CarbonLegend';
 import CommoditiesLegend from './CommoditiesLegend';
+import YieldLegend from './YieldLegend';
 
 // const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
@@ -315,7 +316,7 @@ const MapView = () => {
       <ThemeProvider theme={theme}>
 
 
-        <Navigationbar  />
+        <Navigationbar />
 
 
 
@@ -365,7 +366,7 @@ const MapView = () => {
             show={show}
             backdrop={false}
             onHide={handleClose}
-            style={{ margin: '4.8em 8.4em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: '#f9f9f9', }}>
+            style={{ margin: '4.5em 8.3em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: '#f9f9f9', }}>
             <Offcanvas.Header closeButton  >
               {/* <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} /> */}
               <Offcanvas.Title>
@@ -863,6 +864,60 @@ const MapView = () => {
 
               </TabPanel>
 
+              <TabPanel value={tabvalue} index={7}>
+                <Typography fontFamily="Poppins" marginBottom={'1em'} fontWeight={'bold'} marginTop={'-2em'} fontSize={'1.5em'}>Predict crop yield</Typography>
+
+
+
+                <Typography fontFamily="Poppins" fontWeight={'bold'} >Select crop</Typography>
+                <FormControl variant="outlined" className={classes.formControl} fullWidth>
+                  <Select
+                    labelId="select-label"
+                    id="select"
+                    value={selectedSensorValue}
+                    onChange={(e) => { handleSensorChange(e); addWMSLayerToMap()}}
+                    style={{ height: '2em', marginBottom: '1.5em', }}
+
+                  >
+                    {sensors.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option.charAt(0).toUpperCase() + option.slice(1)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <Button variant="contained" color="success" className='mb-4'
+
+                  style={{
+                    textTransform: 'none',
+                    fontFamily: 'Poppins',
+                    fontWeight: 700,
+                    fontSize: '1em',
+                    height: '3em',
+                    //    whiteSpace: 'nowrap',
+                    padding: '1em',
+                  }}>
+                  Request analysis
+                </Button>
+                <Button variant="contained" color="success" className='mb-4'
+
+                  style={{
+                    textTransform: 'none',
+                    fontFamily: 'Poppins',
+                    fontWeight: 700,
+                    fontSize: '1em',
+                    height: '3em',
+                    //    whiteSpace: 'nowrap',
+                    padding: '1em',
+                  }}>
+                  Download EUDR report
+                </Button>
+
+
+
+              </TabPanel>
+
               {/* {
                 store_link.current === 'carbon' &&
                 <Box>
@@ -949,7 +1004,7 @@ const MapView = () => {
             show={showLegend}
             onHide={handleCloseLegend}
             backdrop={false}
-            style={{ margin: '4.8em 34.8em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: '#fff', fontfamily: 'Poppins', }}>
+            style={{ margin: '4.5em 34.9em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: '#fff', fontfamily: 'Poppins', }}>
             <Offcanvas.Header closeButton  >
               {/* <ChevronLeftIcon onClick={handleCloseLegend} style={{ marginLeft: '13em', cursor: 'pointer' }} /> */}
               <Offcanvas.Title>
@@ -962,10 +1017,11 @@ const MapView = () => {
                   : tabvalue === 1 ? <TreeCoverLegend />
                     : tabvalue === 2 ? <LandCoverLegend />
                       : tabvalue === 3 ? <BiodiversityLegend />
-                        : tabvalue === 4 ? <SoilLegend /> 
-                        : tabvalue === 5 ? <CarbonLegend /> :
-                        tabvalue === 6 ? <CommoditiesLegend /> :
-                          ''
+                        : tabvalue === 4 ? <SoilLegend />
+                          : tabvalue === 5 ? <CarbonLegend /> :
+                            tabvalue === 6 ? <CommoditiesLegend /> :
+                            tabvalue === 7 ? <YieldLegend />:
+                              ''
 
               }
 
