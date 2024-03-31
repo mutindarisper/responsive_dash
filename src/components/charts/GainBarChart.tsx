@@ -37,7 +37,7 @@ const GainBarChart: React.FC<GainBarChartProps> = ({ data, labels }) => {
   return (
     <div>
      
-      <Bar data={chartData} options={chartOptions} />
+      <Bar data={chartData} options={chartOptions} height={130} width={350} />
     </div>
   );
 };
