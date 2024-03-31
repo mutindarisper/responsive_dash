@@ -7,6 +7,7 @@ import SignUp from "./components/auth/SignUp"
 import Mode from "./components/Mode"
 import { Provider } from 'react-redux'
 import store from './store/store.js'
+import Dashboard from "./components/Dashboard"
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
     <Route path="/" element={<HomePage />}> </Route>
     <Route path="/mapviewer" element={<MapView />}> </Route>
     <Route path="/signup" element={<SignUp />}> </Route>
+    <Route path="/dashboard" element={<Dashboard />}> </Route>
     <Route path="/mode" element={<Mode />}> </Route>
    </Routes>
    </Provider>

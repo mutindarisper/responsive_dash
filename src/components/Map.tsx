@@ -143,7 +143,7 @@ const MapView = () => {
   const [show, setShow] = useState(false)
   const [showLegend, setshowLegend] = useState(false)
 
-  const [tabvalue, setTabValue] = useState<any>(null);
+  const [tabvalue, setTabValue] = useState<any>(0);
   let store_link = useRef('')
   store_link.current = storeLink
 
@@ -417,10 +417,10 @@ const MapView = () => {
 
 
                 <FormGroup style={{ marginBottom: '1em' }}>
-                  <FormControlLabel control={<Switch color='warning' onChange={addWMSLayerToMap} />} label={<Typography fontFamily="Poppins">Forest cover loss</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Forest cover gain</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Net Forest Change</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Forest loss by dominant driver</Typography>} />
+                  <FormControlLabel control={<Switch color='warning' onChange={addWMSLayerToMap} />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Forest cover loss</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Forest cover gain</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Net Forest Change</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Forest loss by dominant driver</Typography>} />
 
                 </FormGroup>
 
@@ -431,8 +431,8 @@ const MapView = () => {
                   <Typography fontFamily="Poppins" style={{ fontWeight: 'bold', margin: '.5em' }}>Deforestation Alerts</Typography>
 
                   <FormGroup>
-                    <FormControlLabel control={<Switch color='warning' />} label={<Typography fontFamily="Poppins">Near realtime alerts</Typography>} />
-                    <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Areas to watch</Typography>} />
+                    <FormControlLabel control={<Switch color='warning' />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Near realtime alerts</Typography>} />
+                    <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Areas to watch</Typography>} />
 
                   </FormGroup>
 
@@ -440,10 +440,10 @@ const MapView = () => {
                   <Typography fontFamily="Poppins" style={{ fontWeight: 'bold', margin: '.5em' }}>Fires</Typography>
 
                   <FormGroup>
-                    <FormControlLabel control={<Switch color='warning' />} label={<Typography fontFamily="Poppins">Fire alerts</Typography>} />
-                    <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Areas to watch</Typography>} />
-                    <FormControlLabel control={<Switch color='warning' />} label={<Typography fontFamily="Poppins">Global fire index</Typography>} />
-                    <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Tree cover loss due to fires</Typography>} />
+                    <FormControlLabel control={<Switch color='warning' />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Fire alerts</Typography>} />
+                    <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Areas to watch</Typography>} />
+                    <FormControlLabel control={<Switch color='warning' />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Global fire index</Typography>} />
+                    <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Tree cover loss due to fires</Typography>} />
                   </FormGroup>
 
                 </List>
@@ -554,14 +554,14 @@ const MapView = () => {
                 </Stack>
 
                 <FormGroup style={{ marginBottom: '1em' }}>
-                  <FormControlLabel control={<Switch onChange={addWMSLayerToMap} />} label={<Typography fontFamily="Poppins">Forests</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Cropland</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Grassland</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Built-up</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Shrubland</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Wetland</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Bareland</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Water</Typography>} />
+                  <FormControlLabel control={<Switch onChange={addWMSLayerToMap} />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Forests</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Cropland</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Grassland</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Built-up</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Shrubland</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Wetland</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Bareland</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold' >Water</Typography>} />
 
                 </FormGroup>
 
@@ -611,15 +611,15 @@ const MapView = () => {
                 </Stack>
 
                 <FormGroup style={{ marginBottom: '1em' }}>
-                  <FormControlLabel control={<Switch onChange={addWMSLayerToMap} />} label={<Typography fontFamily="Poppins">Key Biodiversity Areas</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Biodiversity Hotspots</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Biodiversity loss</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Biodiversity gain</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Biodiversity intactness</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Biodiversity significance</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Alliance for Zero extinction sites</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Endemic Bird Areas</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Tiger conservation landscape</Typography>} />
+                  <FormControlLabel control={<Switch onChange={addWMSLayerToMap} />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Key Biodiversity Areas</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Biodiversity Hotspots</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Biodiversity loss</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Biodiversity gain</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Biodiversity intactness</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Biodiversity significance</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Alliance for Zero extinction sites</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Endemic Bird Areas</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Tiger conservation landscape</Typography>} />
 
                 </FormGroup>
 
@@ -681,10 +681,10 @@ const MapView = () => {
                 </Stack>
 
                 <FormGroup style={{ marginBottom: '1em' }}>
-                  <FormControlLabel control={<Switch onChange={addWMSLayerToMap} />} label={<Typography fontFamily="Poppins">Soil Types</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Soil Moisture levels</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Water quality</Typography>} />
-                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Land Use </Typography>} />
+                  <FormControlLabel control={<Switch onChange={addWMSLayerToMap} />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Soil Types</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Soil Moisture levels</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Water quality</Typography>} />
+                  <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins" fontWeight='bold'>Land Use </Typography>} />
 
 
                 </FormGroup>
@@ -920,66 +920,8 @@ const MapView = () => {
 
               {/* {
                 store_link.current === 'carbon' &&
-                <Box>
-
-                  <Typography fontFamily="Poppins" marginBottom={'1em'} fontWeight={'bold'} marginTop={'-2em'} fontSize={'1.5em'}>Soil & Water</Typography>
-
-                  <Typography fontFamily="Poppins" fontWeight={'bold'} marginBottom={'1em'} >Select date</Typography>
-
-                  <Stack direction="row" spacing={12} >
-                    <Typography fontFamily="Poppins" fontWeight={'bold'} >Start</Typography>
-                    <Typography fontFamily="Poppins" fontWeight={'bold'} >End</Typography>
-                  </Stack>
-
-
-                  <Stack direction="row" spacing={2} style={{ marginBottom: '2em' }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DemoContainer components={['DatePicker', 'DatePicker']}>
-
-                        <DatePicker
-
-                          value={selectedDate}
-                          onChange={handleDateChange}
-                          format="YYYY-MM-DD"
-                          className={classes.datePicker}
-                        />
-                      </DemoContainer>
-                    </LocalizationProvider>
-
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DemoContainer components={['DatePicker', 'DatePicker']}>
-
-                        <DatePicker
-
-                          value={selectedDate}
-                          onChange={handleDateChange}
-                          format="YYYY-MM-DD"
-                          className={classes.datePicker}
-                        />
-                      </DemoContainer>
-                    </LocalizationProvider>
-
-                  </Stack>
-
-                  <FormGroup style={{ marginBottom: '1em' }}>
-                    <FormControlLabel control={<Switch onChange={addWMSLayerToMap} />} label={<Typography fontFamily="Poppins">Soil Types</Typography>} />
-                    <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Soil Moisture levels</Typography>} />
-                    <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Water quality</Typography>} />
-                    <FormControlLabel control={<Switch />} label={<Typography fontFamily="Poppins">Land Use </Typography>} />
-
-
-                  </FormGroup>
-
-
-                  <Typography fontFamily="Poppins" >Get results via email once ready and download report</Typography>
-
-
-                </Box>
-
+ 
               } */}
-
-
-
 
             </Offcanvas.Body>
           </Offcanvas>
