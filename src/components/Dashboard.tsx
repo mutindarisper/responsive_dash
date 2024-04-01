@@ -14,7 +14,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CloudDownload, Settings } from '@mui/icons-material';
 import GainBarChart from './charts/GainBarChart';
-
+import DoughnutChart from './charts/Doughnut';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../store/store'
 
 type Props = {}
 const useStyles = makeStyles({
@@ -58,9 +60,11 @@ const theme = createTheme({
         },
     },
 });
+const apiKey = import.meta.env.VITE_MAPBOX_API_KEY 
 
 const Dashboard = (props: Props) => {
     const classes = useStyles();
+    const storeMode = useSelector((state: RootState) => state.mode);
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
     let wmsLayer = useRef<L.TileLayer.WMS | null>(null)
 
@@ -112,9 +116,21 @@ const Dashboard = (props: Props) => {
             const map = L.map(mapContainerRef.current, {
                 zoomControl: false,
             }).setView([-15.280429913912881, 26.978118886920633], 6);
-            L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-            }).addTo(map);
+            storeMode === 'light' ? 
+            L.tileLayer(
+             "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+             {
+                 attribution:
+                     'Map data (c) <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
+                 maxZoom: 10,
+                 id: "mapbox/streets-v11",
+                 accessToken:apiKey,
+             },
+         ).addTo(map)
+         
+         :L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
+                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+               }).addTo(map)  
             L.control.scale({ position: 'bottomright' }).addTo(map);
             L.control.zoom({ position: 'topright' }).addTo(map);
 
@@ -134,7 +150,7 @@ const Dashboard = (props: Props) => {
         };
 
 
-    }, []);
+    }, [storeMode]);
 
 
 
@@ -327,11 +343,13 @@ const Dashboard = (props: Props) => {
                         </Col>
                         <Col sm={5} style={{ backgroundColor: '#fff', padding: '2em', height: '90vh', fontFamily: 'Poppins' }}>
                             <Typography fontFamily="Poppins" fontWeight={'bold'} > Net Change</Typography>
-                            <div className="chart" style={{ border: '2px solid #4caf50', height: '36vh', padding: '1em', marginBottom:'1em' }}>
+                            <div className="chart" style={{  border: '2px solid #4caf50', height: '36vh', padding: '1em', marginBottom:'1em' }}>
                                 <p>Lörem ipsum tetral reang jyjirtad kronas biditt. Homokompetens. Kontrara bedur om vyktigt. Trilogi euhägisk. Difaligen egosörar hemist.
                                 </p>
 
-                                <GainBarChart data={data} labels={labels} />
+                                <div className="pie" style={{  height: '32vh', display:'flex', justifyContent:'center', alignItems:'center', marginTop:'-2em'   }} >
+                                    <DoughnutChart data={data} labels={labels} />
+                                </div>
                             </div>
 
                             <div ref={mapContainerRef}  id="map" style={{ height: '47vh' }}></div>

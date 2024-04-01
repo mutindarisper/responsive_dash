@@ -7,6 +7,8 @@ import { styled } from '@mui/styles';
 import BarChart1 from './charts/BarChart';
 import DoughnutChart from './charts/Doughnut';
 import GainBarChart from './charts/GainBarChart';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../store/store'
 type Props = {
     onOpacityChange: (event: Event, newValue: number | number[]) => void;
 }
@@ -51,6 +53,8 @@ const VisuallyHiddenInput = styled('input')({
 });
 const Legend = ({ onOpacityChange }: Props) => {
     const [value, setValue] = useState('1');
+   
+    const storeMode = useSelector((state: RootState) => state.mode);
     const [opacity, setOpacity] = useState<number>(100);
 
     const data = [5, 4, 3 ];
@@ -72,12 +76,13 @@ const Legend = ({ onOpacityChange }: Props) => {
 
 
     return (
-        <Box sx={{ width: '100%', typography: 'body1', bgcolor: '#fff' }}>
+        <Box sx={{ width: '100%', typography: 'body1', bgcolor: storeMode === 'light' ? '#f9f9f9' : '#303230',
+        color: storeMode === 'light' ? '#484a48' : '#ddeec6', }}>
             <TabContext value={value} >
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={handleChange} style={{ marginLeft: '2em' }} >
-                        <Tab icon={<Layers style={{ height: '1.5em', width: '2em' }} />} label={<Typography fontFamily="Poppins" textTransform={'none'} fontSize={'1.2em'}>Legend</Typography>} value="1" />
-                        <Tab icon={<BarChart style={{ height: '1.5em', width: '2em' }} />} label={<Typography fontFamily="Poppins" textTransform={'none'} fontSize={'1.2em'}>Analysis</Typography>} value="2" />
+                <Box sx={{ borderBottom: 1, borderColor: 'divider',   }}>
+                    <TabList onChange={handleChange} style={{ marginLeft: '2em',  }} >
+                        <Tab icon={<Layers style={{ height: '1.5em', width: '2em' }} />} label={<Typography fontFamily="Poppins" textTransform={'none'} fontSize={'1.2em'} color={ storeMode === 'light' ? '#484a48' : '#ddeec6'}>Legend</Typography>} value="1" />
+                        <Tab icon={<BarChart style={{ height: '1.5em', width: '2em' }} />} label={<Typography fontFamily="Poppins" textTransform={'none'} fontSize={'1.2em'} color={ storeMode === 'light' ? '#484a48' : '#ddeec6'}>Analysis</Typography>} value="2" />
                         {/* <Tab icon={<BarChart />} label="Analysis3" value="3" style={{ backgroundColor: value === '2' ? '#086a53' : 'inherit', color: value === '3' ? 'white' : 'inherit' }} style={{ backgroundColor: value === '1' ? '#ddeec6' : 'inherit', color: value === '1' ? '#5b5e57' : 'inherit' }} style={{ backgroundColor: value === '2' ? '#ddeec6' : 'inherit', color: value === '2' ? '#5b5e57' : 'inherit' }}   /> */}
                     </TabList>
                 </Box>

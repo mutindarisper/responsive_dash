@@ -113,11 +113,12 @@ const theme = createTheme({
   },
 });
 
+const apiKey = import.meta.env.VITE_MAPBOX_API_KEY 
 const MapView = () => {
   const classes = useStyles();
   const storeMode = useSelector((state: RootState) => state.mode);
   const storeLink = useSelector((state: RootState) => state.link);
-  // console.log(storeLink)
+  // console.log(storeMode)
 
   // const theme = useTheme();
   // const colorMode = React.useContext(ColorModeContext);
@@ -145,12 +146,14 @@ const MapView = () => {
 
   const [tabvalue, setTabValue] = useState<any>(0);
   let store_link = useRef('')
+  let store_mode = useRef('')
   store_link.current = storeLink
+  store_mode.current = storeMode
 
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: any) => {
     setTabValue(newValue);
-    console.log(newValue)
+    // console.log(newValue)
   };
 
 
@@ -272,14 +275,27 @@ const MapView = () => {
         mapRef.current.remove();
         mapRef.current = null;
       }
+      // console.log(store_mode.current)
 
       // Create a new map instance
       const map = L.map(mapContainerRef.current, {
         zoomControl: false,
       }).setView([-15.280429913912881, 26.978118886920633], 6);
-      L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
+      storeMode === 'light' ? 
+   L.tileLayer(
+    "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+    {
+        attribution:
+            'Map data (c) <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 10,
+        id: "mapbox/streets-v11",
+        accessToken:apiKey,
+    },
+).addTo(map)
+
+:L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-      }).addTo(map);
+      }).addTo(map)   
       L.control.scale({ position: 'bottomright' }).addTo(map);
       L.control.zoom({ position: 'topright' }).addTo(map);
 
@@ -299,7 +315,7 @@ const MapView = () => {
     };
 
 
-  }, []);
+  }, [storeMode]);
 
 
   const handleNavbarClick = (value: string) => {
@@ -366,7 +382,8 @@ const MapView = () => {
             show={show}
             backdrop={false}
             onHide={handleClose}
-            style={{ margin: '4.5em 8.3em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: '#f9f9f9', }}>
+            style={{ margin: '4.5em 8.9em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: storeMode === 'light' ? '#f9f9f9' : '#484a48',
+            color: storeMode === 'light' ? '#484a48' : '#ddeec6', }}>
             <Offcanvas.Header closeButton  >
               {/* <CloseIcon onClick={handleClose} style={{ marginLeft: '14em', cursor: 'pointer' }} /> */}
               <Offcanvas.Title>
@@ -946,14 +963,16 @@ const MapView = () => {
             show={showLegend}
             onHide={handleCloseLegend}
             backdrop={false}
-            style={{ margin: '4.5em 34.9em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: '#fff', fontfamily: 'Poppins', }}>
+            style={{ margin: '4.5em 34.9em', height: '90vh', overflowY: 'auto', width: '22%', backgroundColor: storeMode === 'light' ? '#f9f9f9' : '#303230',
+            color: storeMode === 'light' ? '#484a48' : '#ddeec6', fontfamily: 'Poppins', }}>
             <Offcanvas.Header closeButton  >
               {/* <ChevronLeftIcon onClick={handleCloseLegend} style={{ marginLeft: '13em', cursor: 'pointer' }} /> */}
               <Offcanvas.Title>
 
               </Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body>
+            <Offcanvas.Body style={{backgroundColor: storeMode === 'light' ? '#f9f9f9' : '#303230',
+            color: storeMode === 'light' ? '#484a48' : '#ddeec6',}}>
               {
                 tabvalue === 0 ? <Legend onOpacityChange={handleOpacityChange} />
                   : tabvalue === 1 ? <TreeCoverLegend />
