@@ -14,6 +14,9 @@ import { RootState } from '../store/store'
 import SelectionsPanel from './SelectionsPanel';
 import LineChart from './charts/LineChart';
 import SoilGaugeChart from './charts/SoilGaugeChart';
+import BubbleChart from './charts/BubbleChart';
+import TempLineChart from './charts/Temperature';
+import StackedVerticalBarChart from './charts/StackedBarChart';
 
 type Props = {}
 
@@ -159,33 +162,33 @@ const Agriculture = (props: Props) => {
                                 </div>
                             </div>
                         </Col>
-                        <Col sm={5} style={{ backgroundColor: '#fff', padding: '2em', height: '90vh', fontFamily: 'Poppins' }}>
+                        <Col sm={5} style={{ backgroundColor: '#fff', padding: '2em', height: '90vh', fontFamily: 'Poppins', overflowY: 'auto' }}>
                             <Typography fontFamily="Poppins" fontWeight={'bold'} > Soil Moisture</Typography>
-                            <div className="chart d-flex gap-2" style={{ border: '2px solid #4caf50', height: '26vh', padding: '1em', marginBottom: '1em' }}>
+                            <div className="chart d-flex gap-2" style={{ border: '2px solid #4caf50', height: '36vh', padding: '1em', marginBottom: '1em' }}>
                                 <p className='my-4'>Lörem ipsum tetral reang jyjirtad kronas biditt. Homokompetens. Kontrara bedur om vyktigt. Trilogi euhägisk. Difaligen egosörar hemist.
                                 </p>
 
-                                <div className="pie" style={{ height: '7vh', }} >
+                                <div className="pie" style={{ height: '30vh', }} >
                                     <SoilGaugeChart />
                                 </div>
                             </div>
 
                             <Typography fontFamily="Poppins" fontWeight={'bold'} > Temperature</Typography>
-                            <div className="chart" style={{ border: '2px solid #4caf50', height: '26vh', padding: '1em', marginBottom: '1em' }}>
+                            <div className="chart d-flex gap-2" style={{ border: '2px solid #4caf50', height: '36vh', padding: '1em', marginBottom: '1em' }}>
                                 <p>Lörem ipsum tetral reang jyjirtad kronas biditt. Homokompetens. Kontrara bedur om vyktigt. Trilogi euhägisk. Difaligen egosörar hemist.
                                 </p>
 
-                                <div className="pie" style={{ height: '7vh', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '3.5em' }} >
-                                    <LineChart data={data} labels={labels} />
+                                <div className="pie" style={{ height: '35vh', marginTop: '.5em'}} >
+                                    <StackedVerticalBarChart />
                                 </div>
                             </div>
                             <Typography fontFamily="Poppins" fontWeight={'bold'} > Evapo-Transpiration</Typography>
-                            <div className="chart" style={{ border: '2px solid #4caf50', height: '26vh', padding: '1em', marginBottom: '1em' }}>
+                            <div className="chart  d-flex gap-2" style={{ border: '2px solid #4caf50', height: '36vh', padding: '1em', marginBottom: '1em' }}>
                                 <p>Lörem ipsum tetral reang jyjirtad kronas biditt. Homokompetens. Kontrara bedur om vyktigt. Trilogi euhägisk. Difaligen egosörar hemist.
                                 </p>
 
-                                <div className="pie" style={{ height: '7vh', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '3.5em' }} >
-                                    <LineChart data={data} labels={labels} />
+                                <div className="pie" style={{ height: '95vh', width:'95vw', marginTop:'-1em' }} >
+                                    <BubbleChart  />
                                 </div>
                             </div>
 

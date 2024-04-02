@@ -20,11 +20,12 @@ const SoilGaugeChart = (props: Props) => {
     return (
         <GaugeComponent
             value={50}
+            style={{width:400, height:300}}
             type="radial"
             labels={{
                 valueLabel: {
                     style: {
-                      fontSize: "55px", fill: "#464646", fontFamily: 'Poppins',
+                      fontSize: "35px", fill: "#464646", fontFamily: 'Poppins',
                     }
         
                   },
