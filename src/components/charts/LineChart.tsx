@@ -41,7 +41,7 @@ const LineChart: React.FC<BarChartProps> = ({ data, labels }) => {
   return (
     <div>
      
-      <Line data={chartData} options={chartOptions} />
+      <Line data={chartData} options={chartOptions} height={200} width={450} />
     </div>
   );
 };
