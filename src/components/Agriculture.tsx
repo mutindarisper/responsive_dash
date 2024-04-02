@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigationbar from './Navigationbar'
 import { Col, Container, Row } from 'react-bootstrap'
-import { Typography, SelectChangeEvent,  } from '@mui/material'
+import { Typography, SelectChangeEvent, } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import dayjs, { Dayjs } from 'dayjs';
 import GainBarChart from './charts/GainBarChart';
@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store'
 import SelectionsPanel from './SelectionsPanel';
 import LineChart from './charts/LineChart';
+import SoilGaugeChart from './charts/SoilGaugeChart';
 
 type Props = {}
 
@@ -27,7 +28,7 @@ const theme = createTheme({
         },
     },
 });
-const apiKey = import.meta.env.VITE_MAPBOX_API_KEY 
+const apiKey = import.meta.env.VITE_MAPBOX_API_KEY
 
 const Agriculture = (props: Props) => {
     const storeMode = useSelector((state: RootState) => state.mode);
@@ -58,7 +59,7 @@ const Agriculture = (props: Props) => {
         console.log(event.target.value)
         setSelectedDataset(event.target.value as string);
     };
-    
+
     const handleBand = (event: SelectChangeEvent) => {
         console.log(event.target.value)
         setSelectedBand(event.target.value as string);
@@ -99,61 +100,13 @@ const Agriculture = (props: Props) => {
         setSelectedEndDate(date as Dayjs);
     };
 
-    const handleAnalysis = (event:any) => {
+    const handleAnalysis = (event: any) => {
         console.log('run analysis')
     };
-    const downloadReport = (event:any) => {
+    const downloadReport = (event: any) => {
         console.log('download report')
     };
     useEffect(() => {
-
-
-        if (mapContainerRef.current) {
-            // Check if a map instance already exists
-            if (mapRef.current) {
-                // If a map instance exists, remove it and clean up
-                mapRef.current.remove();
-                mapRef.current = null;
-            }
-
-            // Create a new map instance
-            const map = L.map(mapContainerRef.current, {
-                zoomControl: false,
-            }).setView([-15.280429913912881, 26.978118886920633], 6);
-            storeMode === 'light' ? 
-            L.tileLayer(
-             "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-             {
-                 attribution:
-                     'Map data (c) <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
-                 maxZoom: 10,
-                 id: "mapbox/streets-v11",
-                 accessToken:apiKey,
-             },
-         ).addTo(map)
-         
-         :L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
-                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-               }).addTo(map)  
-            L.control.scale({ position: 'bottomright' }).addTo(map);
-            L.control.zoom({ position: 'topright' }).addTo(map);
-
-            // Save the map instance in the ref for future cleanup
-            mapRef.current = map;
-        }
-
-
-        // Cleanup function when the component is unmounted
-        return () => {
-            if (mapRef.current) {
-                mapRef.current.remove();
-                mapRef.current = null;
-            }
-
-
-        };
-
-
     }, [storeMode]);
 
 
@@ -164,21 +117,21 @@ const Agriculture = (props: Props) => {
                 <Navigationbar />
                 <Container fluid  >
                     <Row>
-                        <Col sm={3} style={{ backgroundColor: '#eee', padding: '2em', height: '90vh', fontFamily: 'Poppins' }}>
-                            <SelectionsPanel 
-                            handleBoundary={handleBoundary}
-                             handleDateChange={handleDateChange} 
-                             handleToDateChange={handleEndDateChange}
-                             handleTheme={handleTheme} 
-                             handleDataset={handleDataset}
-                             handleBand={handleBand}
-                             handleStatistic={handleStatistic}
-                             runAnalysis={handleAnalysis}
-                             downloadReport={downloadReport}
-                             boundaryValue={boundary} dateValue={selectedDate} endDateValue={selectedEndDate}
-                             themeValue={selectedTheme} datasetValue={selectedDataset} 
-                             bandValue={selectedBand} statisticValue={statistic}
-                             />
+                        <Col sm={3} style={{ backgroundColor: '#f9f9f9', padding: '2em', height: '90vh', fontFamily: 'Poppins' }}>
+                            <SelectionsPanel
+                                handleBoundary={handleBoundary}
+                                handleDateChange={handleDateChange}
+                                handleToDateChange={handleEndDateChange}
+                                handleTheme={handleTheme}
+                                handleDataset={handleDataset}
+                                handleBand={handleBand}
+                                handleStatistic={handleStatistic}
+                                runAnalysis={handleAnalysis}
+                                downloadReport={downloadReport}
+                                boundaryValue={boundary} dateValue={selectedDate} endDateValue={selectedEndDate}
+                                themeValue={selectedTheme} datasetValue={selectedDataset}
+                                bandValue={selectedBand} statisticValue={statistic}
+                            />
 
                         </Col>
                         <Col sm={4} style={{ backgroundColor: '#fff', padding: '2em', height: '90vh', fontFamily: 'Poppins' }}>
@@ -191,7 +144,7 @@ const Agriculture = (props: Props) => {
                             <div className="bar" style={{ border: '2px solid #4caf50', height: '32vh', padding: '1em', marginBottom: '1em' }}>
                                 <p>Lörem ipsum tetral reang jyjirtad kronas biditt. Homokompetens. Kontrara bedur om vyktigt. Trilogi euhägisk. Difaligen egosörar hemist.
                                 </p>
-                                <div className="pie" style={{  height: '32vh', display:'flex', justifyContent:'center',  marginTop:'-1em'  }} >
+                                <div className="pie" style={{ height: '32vh', display: 'flex', justifyContent: 'center', marginTop: '-1em' }} >
                                     <LineChart data={data} labels={labels} />
                                 </div>
                             </div>
@@ -201,42 +154,42 @@ const Agriculture = (props: Props) => {
                                 <p>Lörem ipsum tetral reang jyjirtad kronas biditt. Homokompetens. Kontrara bedur om vyktigt. Trilogi euhägisk. Difaligen egosörar hemist.
                                 </p>
 
-                                <div className="pie" style={{  height: '32vh', display:'flex', justifyContent:'center', marginTop:'-1em'  }} >
+                                <div className="pie" style={{ height: '32vh', display: 'flex', justifyContent: 'center', marginTop: '-1em' }} >
                                     <LineChart data={data} labels={labels} />
                                 </div>
                             </div>
                         </Col>
                         <Col sm={5} style={{ backgroundColor: '#fff', padding: '2em', height: '90vh', fontFamily: 'Poppins' }}>
                             <Typography fontFamily="Poppins" fontWeight={'bold'} > Soil Moisture</Typography>
-                            <div className="chart" style={{  border: '2px solid #4caf50', height: '26vh', padding: '1em', marginBottom:'1em' }}>
-                                <p>Lörem ipsum tetral reang jyjirtad kronas biditt. Homokompetens. Kontrara bedur om vyktigt. Trilogi euhägisk. Difaligen egosörar hemist.
+                            <div className="chart d-flex gap-2" style={{ border: '2px solid #4caf50', height: '26vh', padding: '1em', marginBottom: '1em' }}>
+                                <p className='my-4'>Lörem ipsum tetral reang jyjirtad kronas biditt. Homokompetens. Kontrara bedur om vyktigt. Trilogi euhägisk. Difaligen egosörar hemist.
                                 </p>
 
-                                <div className="pie" style={{  height: '7vh', display:'flex', justifyContent:'center', alignItems:'center', marginTop:'3.5em'   }} >
-                                    <LineChart data={data} labels={labels} />
+                                <div className="pie" style={{ height: '7vh', }} >
+                                    <SoilGaugeChart />
                                 </div>
                             </div>
 
                             <Typography fontFamily="Poppins" fontWeight={'bold'} > Temperature</Typography>
-                            <div className="chart" style={{  border: '2px solid #4caf50', height: '26vh', padding: '1em', marginBottom:'1em' }}>
+                            <div className="chart" style={{ border: '2px solid #4caf50', height: '26vh', padding: '1em', marginBottom: '1em' }}>
                                 <p>Lörem ipsum tetral reang jyjirtad kronas biditt. Homokompetens. Kontrara bedur om vyktigt. Trilogi euhägisk. Difaligen egosörar hemist.
                                 </p>
 
-                                <div className="pie" style={{  height: '7vh', display:'flex', justifyContent:'center', alignItems:'center', marginTop:'3.5em'   }} >
+                                <div className="pie" style={{ height: '7vh', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '3.5em' }} >
                                     <LineChart data={data} labels={labels} />
                                 </div>
                             </div>
                             <Typography fontFamily="Poppins" fontWeight={'bold'} > Evapo-Transpiration</Typography>
-                            <div className="chart" style={{  border: '2px solid #4caf50', height: '26vh', padding: '1em', marginBottom:'1em' }}>
+                            <div className="chart" style={{ border: '2px solid #4caf50', height: '26vh', padding: '1em', marginBottom: '1em' }}>
                                 <p>Lörem ipsum tetral reang jyjirtad kronas biditt. Homokompetens. Kontrara bedur om vyktigt. Trilogi euhägisk. Difaligen egosörar hemist.
                                 </p>
 
-                                <div className="pie" style={{  height: '7vh', display:'flex', justifyContent:'center', alignItems:'center', marginTop:'3.5em'   }} >
+                                <div className="pie" style={{ height: '7vh', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '3.5em' }} >
                                     <LineChart data={data} labels={labels} />
                                 </div>
                             </div>
 
-                            
+
                         </Col>
                     </Row>
 
