@@ -111,7 +111,7 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
           <Nav.Link style={navLinkStyle} onClick={() => handleClick( 'commodities')}>Commodities</Nav.Link>
           <Nav.Link style={navLinkStyle} onClick={() => handleClick( 'yield')}>Yield</Nav.Link> */}
           <Nav.Link style={navLinkStyle} href="/trend">Trend</Nav.Link>
-          <Nav.Link style={navLinkStyle} >Agriculture</Nav.Link>
+          <Nav.Link style={navLinkStyle}  href="/agriculture" >Agriculture</Nav.Link>
 
 
 

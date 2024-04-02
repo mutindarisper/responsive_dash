@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import store from './store/store.js'
 import Dashboard from "./components/Dashboard"
 import Trend from "./components/Trend.js"
+import Agriculture from "./components/Agriculture.js"
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
     <Route path="/signup" element={<SignUp />}> </Route>
     <Route path="/dashboard" element={<Dashboard />}> </Route>
     <Route path="/trend" element={<Trend />}> </Route>
+    <Route path="/agriculture" element={<Agriculture />}> </Route>
     <Route path="/mode" element={<Mode />}> </Route>
    </Routes>
    </Provider>
