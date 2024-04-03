@@ -1,148 +1,150 @@
-import { VisibilityOff, Visibility } from '@mui/icons-material'
-import { Box, FormControl, IconButton, Input, InputAdornment, InputLabel  } from '@mui/material'
-import React, {useEffect, useState} from 'react'
-import ParentComponent from '../ParentComponent'
+// import { VisibilityOff, Visibility } from '@mui/icons-material'
 
+import { Button, FormControl, IconButton, Input, InputAdornment, InputLabel, Stack, TextField } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { makeStyles } from '@mui/styles';
+// import forest from '../../assets/images/forest.jpg'
+import '../style.css'
+const useStyles = makeStyles({
+  root: {
+    '& .MuiInputBase-input': {
+      backgroundColor: 'white', // Change the background color to white
+      fontFamily: 'Poppins',
+      borderRadius: '5px',
+      color: '#484A48'
+    },
+  },
+});
 
 
 type Form = {
-        firstName: string,
-        lastName:string,
-        email:string,
-        password:string,
-        confirmPassword:string,
+
+  username: string,
+  email: string,
+  password: string,
+  confirmPassword: string,
 }
 
 const SignUp = () => {
-    const [form, setForm] = useState<Form>({
-        firstName:'',
-        lastName:'',
-        email:'',
-        password:'',
-        confirmPassword:'',
+  const classes = useStyles();
+  const [form, setForm] = useState<Form>({
+
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  })
+
+
+  const handleFormChange = (e: any) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+
     })
-    
 
-    const handleFormChange = (e:any) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
+    console.log(form)
 
-        })
-
-        console.log(form)
-
-    }
+  }
 
 
-    
-    
+
+
   return (
-    <div>
-        <Box>
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-          <InputLabel htmlFor="standard-adornment-password">FirstName</InputLabel>
-          <Input
-            id="standard-adornment-password"
-            name='firstName'
-            type='text'
-            onChange={handleFormChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                 
-                 
-                >
-                  {/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
+    <div className="signup d-flex  bg-image-signup-container  mb-5" style={{ width: '100vw', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
 
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-          <InputLabel htmlFor="standard-adornment-password">LastName</InputLabel>
-          <Input
-            id="standard-adornment-password"
-            name='lastName'
-            type='text'
-            onChange={handleFormChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                 
-                 
-                >
-                  {/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
 
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-          <InputLabel htmlFor="standard-adornment-password">Email</InputLabel>
-          <Input
-            id="standard-adornment-password"
-            type='email'
-            name='email'
-            onChange={handleFormChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-             
-                 
-                >
-                  {/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
+      <div className="wrapper">
 
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-          <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-          <Input
-            id="standard-adornment-password"
-            type='password'
-            name='password'
-            onChange={handleFormChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                 
-                >
-                  {/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
+        <Stack spacing={2}  >
 
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-          <InputLabel htmlFor="standard-adornment-password">Confirm password</InputLabel>
-          <Input
-            id="standard-adornment-password"
-            type='password'
-            name='confirmPassword'
-            onChange={handleFormChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                 
-                >
-                  {/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        </Box>
+          <p style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: '2em' }} >Sign Up</p>
+          <FormControl sx={{ m: 1, }} variant="standard">
+            {/* <InputLabel htmlFor="standard-adornment-password">LastName</InputLabel> */}
+            <TextField
+              id="standard-adornment-password"
+              name='username'
+              type='text'
+              variant="filled"
+              label="Username"
+              InputProps={{
+                className: classes.root,
+              }}
+              InputLabelProps={{
+                style: { fontFamily: 'Poppins' } // Change the font family of the label to Poppins
+              }}
+              onChange={handleFormChange}
 
-        <ParentComponent />
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, }} variant="standard">
+            {/* <InputLabel htmlFor="standard-adornment-password">Email</InputLabel> */}
+            <TextField
+              id="standard-adornment-password"
+              type='email'
+              name='email'
+              variant="filled"
+              label="Email"
+              InputProps={{
+                className: classes.root,
+              }}
+              InputLabelProps={{
+                style: { fontFamily: 'Poppins' } // Change the font family of the label to Poppins
+              }}
+              onChange={handleFormChange}
 
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, }} variant="standard">
+            {/* <InputLabel htmlFor="standard-adornment-password">Password</InputLabel> */}
+            <TextField
+              id="standard-adornment-password"
+              type='password'
+              name='password'
+              variant="filled"
+              label="Password"
+              InputProps={{
+                className: classes.root,
+              }}
+              InputLabelProps={{
+                style: { fontFamily: 'Poppins' } // Change the font family of the label to Poppins
+              }}
+              onChange={handleFormChange}
+
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, }} variant="standard">
+            {/* <InputLabel htmlFor="standard-adornment-password">Confirm password</InputLabel> */}
+            <TextField
+              id="standard-adornment-password"
+              type='password'
+              name='confirmPassword'
+              variant="filled"
+              label="Confirm Password"
+              InputProps={{
+                className: classes.root,
+              }}
+              InputLabelProps={{
+                style: { fontFamily: 'Poppins' } // Change the font family of the label to Poppins
+              }}
+              onChange={handleFormChange}
+
+            />
+          </FormControl>
+          <Button variant="contained" color="success"
+            style={{
+              textTransform: 'none',
+              fontFamily: 'Poppins',
+              fontWeight: 700,
+              fontSize: '1.5em',
+              height: '3em',
+              padding: '1em',
+            }}
+          >
+            Sign Up
+          </Button>
+        </Stack>
+      </div>
     </div>
   )
 }

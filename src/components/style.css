@@ -36,4 +36,24 @@
     text-align: center;
     margin-top: 1.5em; /* Adjust margin as needed */
   }
+
+  .bg-image-signup-container {
+    background-image: url('../assets/images/forest.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+     /* padding: 40px;  */
+    /* min-height: 700px;  */
+  }
+  .wrapper{
+    /* From https://css.glass */
+background: rgba(255, 255, 255, 0.47);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(4.2px);
+-webkit-backdrop-filter: blur(4.2px);
+padding: 3em;
+width: 25vw;
+
+  }
   
