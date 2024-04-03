@@ -26,7 +26,7 @@ type Form = {
   confirmPassword: string,
 }
 
-const SignUp = () => {
+const Login = () => {
   const classes = useStyles();
   const navigate = useNavigate()
   const [form, setForm] = useState<Form>({
@@ -49,8 +49,8 @@ const SignUp = () => {
 
   }
 
-  const handleSignUp = () => {
-    navigate('/login')
+  const handleLogin = () => {
+    navigate('/mapviewer')
   }
 
 
@@ -64,25 +64,8 @@ const SignUp = () => {
 
         <Stack spacing={2}  >
 
-          <p style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: '2em' }} >Sign Up</p>
-          <FormControl sx={{ m: 1, }} variant="standard">
-            {/* <InputLabel htmlFor="standard-adornment-password">LastName</InputLabel> */}
-            <TextField
-              id="standard-adornment-password"
-              name='username'
-              type='text'
-              variant="filled"
-              label="Username"
-              InputProps={{
-                className: classes.root,
-              }}
-              InputLabelProps={{
-                style: { fontFamily: 'Poppins' } // Change the font family of the label to Poppins
-              }}
-              onChange={handleFormChange}
-
-            />
-          </FormControl>
+          <p style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: '2em' }} >Login</p>
+          
           <FormControl sx={{ m: 1, }} variant="standard">
             {/* <InputLabel htmlFor="standard-adornment-password">Email</InputLabel> */}
             <TextField
@@ -119,24 +102,7 @@ const SignUp = () => {
 
             />
           </FormControl>
-          <FormControl sx={{ m: 1, }} variant="standard">
-            {/* <InputLabel htmlFor="standard-adornment-password">Confirm password</InputLabel> */}
-            <TextField
-              id="standard-adornment-password"
-              type='password'
-              name='confirmPassword'
-              variant="filled"
-              label="Confirm Password"
-              InputProps={{
-                className: classes.root,
-              }}
-              InputLabelProps={{
-                style: { fontFamily: 'Poppins' } // Change the font family of the label to Poppins
-              }}
-              onChange={handleFormChange}
-
-            />
-          </FormControl>
+          
           <Button variant="contained" color="success"
             style={{
               textTransform: 'none',
@@ -146,14 +112,15 @@ const SignUp = () => {
               height: '3em',
               padding: '1em',
             }}
-            onClick={handleSignUp}
+            onClick={handleLogin}
           >
-            Sign Up
+            Login
           </Button>
+          <p onClick={() => navigate('/forgot')}>Forgot Password?</p>
         </Stack>
       </div>
     </div>
   )
 }
 
-export default SignUp
+export default Login

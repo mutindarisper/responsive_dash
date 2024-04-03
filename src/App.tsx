@@ -10,6 +10,7 @@ import store from './store/store.js'
 import Dashboard from "./components/Dashboard"
 import Trend from "./components/Trend.js"
 import Agriculture from "./components/Agriculture.js"
+import Login from "./components/auth/Login.js"
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
     <Route path="/" element={<HomePage />}> </Route>
     <Route path="/mapviewer" element={<MapView />}> </Route>
     <Route path="/signup" element={<SignUp />}> </Route>
+    <Route path="/login" element={<Login />}> </Route>
     <Route path="/dashboard" element={<Dashboard />}> </Route>
     <Route path="/trend" element={<Trend />}> </Route>
     <Route path="/agriculture" element={<Agriculture />}> </Route>
