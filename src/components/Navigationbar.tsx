@@ -124,7 +124,8 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
           <Nav.Link style={navLinkStyle} href="/signup">Search</Nav.Link>
           <Nav.Link style={navLinkStyle} href="/signup">Notifications</Nav.Link>
-          <Nav.Link style={navLinkStyle} href="/signup">Account</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="/signup">Sign up</Nav.Link>
+          <Nav.Link style={navLinkStyle} href="/profile">Account</Nav.Link>
           <Nav.Link style={navLinkStyle} >
             {theme.palette.mode} mode
           </Nav.Link>

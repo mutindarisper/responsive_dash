@@ -57,7 +57,8 @@ const SignUp = () => {
 
 
   return (
-    <div className="signup d-flex  bg-image-signup-container  mb-5" style={{ width: '100vw', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+    <div className="signup d-flex  bg-image-signup-container  mb-5" 
+    style={{ width: '100vw', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
 
 
       <div className="wrapper">

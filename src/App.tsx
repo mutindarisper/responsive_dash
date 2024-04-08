@@ -13,6 +13,7 @@ import Agriculture from "./components/Agriculture.js"
 import Login from "./components/auth/Login.js"
 import Forgot from "./components/auth/Forgot"
 import Reset from "./components/auth/Reset"
+import Profile from "./components/auth/Profile.js"
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
     <Route path="/login" element={<Login />}> </Route>
      <Route path="/forgot" element={<Forgot />}> </Route>
      <Route path="/reset" element={<Reset />}> </Route>
+     <Route path="/profile" element={<Profile />}> </Route>
     <Route path="/dashboard" element={<Dashboard />}> </Route>
     <Route path="/trend" element={<Trend />}> </Route>
     <Route path="/agriculture" element={<Agriculture />}> </Route>

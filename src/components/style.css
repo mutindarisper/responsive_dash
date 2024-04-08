@@ -25,6 +25,13 @@
     padding: 15em 2em;
     background-color: rgba(0, 0, 0, 0.6); /* Black with opacity */
   }
+
+  .white-bg-opacity {
+    padding: 7em 3em;
+    background-color: rgba(234, 234, 234, 0.6); /* Black with opacity */
+    height: 100vh;
+  }
+  
   
   
   .text-container {
@@ -44,6 +51,16 @@
     color: white;
      /* padding: 40px;  */
     /* min-height: 700px;  */
+  }
+
+  .bg-image-profile-container {
+    background-image: url('../assets/images/forest.jpg');
+    background-size: cover;
+    background-position: center;
+    
+    /* opacity: 0.4; */
+    /* color: white; */
+     
   }
   .wrapper{
     /* From https://css.glass */
